@@ -15,7 +15,7 @@ public abstract class AMsgBase {
 
 	@Setter
 	@Getter
-	private BinaryReader reader;
+	private BinaryReader payload;
 	@Getter
 	private final BinaryWriter outputStream;
 

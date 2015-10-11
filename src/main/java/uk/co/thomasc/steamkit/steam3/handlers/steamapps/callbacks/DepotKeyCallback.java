@@ -1,7 +1,7 @@
 package uk.co.thomasc.steamkit.steam3.handlers.steamapps.callbacks;
 
 import lombok.Getter;
-import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgClientGetDepotDecryptionKeyResponse;
+import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver2.CMsgClientGetDepotDecryptionKeyResponse;
 import uk.co.thomasc.steamkit.base.generated.steamlanguage.EResult;
 import uk.co.thomasc.steamkit.steam3.handlers.steamapps.SteamApps;
 import uk.co.thomasc.steamkit.steam3.steamclient.callbackmgr.CallbackMsg;
@@ -30,8 +30,8 @@ public final class DepotKeyCallback extends CallbackMsg {
 	private final byte[] depotKey;
 
 	public DepotKeyCallback(CMsgClientGetDepotDecryptionKeyResponse msg) {
-		result = EResult.f(msg.getEresult());
-		depotID = msg.getDepotId();
-		depotKey = msg.getDepotEncryptionKey().toByteArray();
+		result = EResult.f(msg.eresult);
+		depotID = msg.depotId;
+		depotKey = msg.depotEncryptionKey;
 	}
 }

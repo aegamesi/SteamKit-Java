@@ -17,6 +17,6 @@ public final class LoggedOffCallback extends CallbackMsg {
 	private final EResult result;
 
 	public LoggedOffCallback(CMsgClientLoggedOff resp) {
-		result = EResult.f(resp.getEresult());
+		result = EResult.f(resp.eresult);
 	}
 }

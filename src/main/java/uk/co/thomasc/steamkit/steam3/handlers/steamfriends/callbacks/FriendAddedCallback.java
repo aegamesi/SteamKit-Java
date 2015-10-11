@@ -29,10 +29,10 @@ public final class FriendAddedCallback extends CallbackMsg {
 	private final String personaName;
 
 	public FriendAddedCallback(CMsgClientAddFriendResponse msg) {
-		result = EResult.f(msg.getEresult());
+		result = EResult.f(msg.eresult);
 
-		steamID = new SteamID(msg.getSteamIdAdded());
+		steamID = new SteamID(msg.steamIdAdded);
 
-		personaName = msg.getPersonaNameAdded();
+		personaName = msg.personaNameAdded;
 	}
 }

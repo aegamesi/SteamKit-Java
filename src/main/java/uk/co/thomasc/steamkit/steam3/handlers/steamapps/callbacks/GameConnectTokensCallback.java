@@ -7,8 +7,6 @@ import lombok.Getter;
 import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgClientGameConnectTokens;
 import uk.co.thomasc.steamkit.steam3.steamclient.callbackmgr.CallbackMsg;
 
-import com.google.protobuf.ByteString;
-
 /**
  * This callback is fired when the client receives a list of game connect
  * tokens.
@@ -27,9 +25,9 @@ public final class GameConnectTokensCallback extends CallbackMsg {
 	private final List<byte[]> tokens = new ArrayList<byte[]>();
 
 	public GameConnectTokensCallback(CMsgClientGameConnectTokens msg) {
-		tokensToKeep = msg.getMaxTokensToKeep();
-		for (final ByteString s : msg.getTokensList()) {
-			tokens.add(s.toByteArray());
+		tokensToKeep = msg.maxTokensToKeep;
+		for (final byte[] s : msg.tokens) {
+			tokens.add(s);
 		}
 	}
 }

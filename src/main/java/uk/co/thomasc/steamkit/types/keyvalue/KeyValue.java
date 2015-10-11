@@ -13,6 +13,7 @@ import java.util.List;
 
 import lombok.Getter;
 import uk.co.thomasc.steamkit.util.Passable;
+import uk.co.thomasc.steamkit.util.logging.DebugLog;
 import uk.co.thomasc.steamkit.util.stream.BinaryReader;
 
 /**
@@ -384,13 +385,49 @@ public class KeyValue {
 		KeyValue.writeString(f, str, false);
 	}
 
-	public static String readNullTermString(InputStream in) throws IOException {
-		int rb, i = 0;
-		final byte[] res = new byte[1024];
-		while ((rb = in.read()) != 0 && rb != -1) {
-			res[i++] = (byte) rb;
+	public static boolean readAsBinaryCore(BinaryReader input, KeyValue parent) throws IOException {
+		parent.children = new ArrayList<KeyValue>();
+
+		while (true) {
+			final Type type = Type.f(input.readByte());
+
+			if (type == Type.End) {
+				break;
+			}
+
+			KeyValue child = new KeyValue();
+			child.name = input.readNullTermString();
+
+			switch (type) {
+				case None:
+					if(!readAsBinaryCore(input, child))
+						return false;
+					break;
+				case String:
+					child.value = input.readNullTermString();
+					break;
+				case WideString:
+					DebugLog.writeLine("KeyValue", "Encountered WideString type when parsing binary KeyValue, which is unsupported. Returning false.");
+					return false;
+				case Int32:
+				case Color:
+				case Pointer:
+					child.value = String.valueOf(input.readInt());
+					break;
+				case UInt64:
+					child.value = String.valueOf(input.readLong());
+					break;
+				case Float32:
+					child.value = String.valueOf(input.readFloat());
+					break;
+				default:
+					return false;
+			}
+
+			parent.children.add(child);
 		}
-		return new String(res, 0, i);
+
+		return true;
 	}
 
 	/**
@@ -403,47 +440,16 @@ public class KeyValue {
 	 * @throws IOException
 	 */
 	public boolean readAsBinary(BinaryReader input) throws IOException {
-		while (true) {
-			final Type type = Type.f(input.readByte());
-
-			if (type == Type.End) {
-				break;
+		if(readAsBinaryCore(input, this)) {
+			if (children.size() == 1) {
+				KeyValue child = children.get(0);
+				name = child.name;
+				value = child.value;
+				children = child.children;
 			}
-
-			final KeyValue current = new KeyValue();
-			current.name = input.readString();
-
-			try {
-				switch (type) {
-				case None:
-					current.readAsBinary(input);
-					break;
-				case String:
-					current.value = input.readString();
-					break;
-				case WideString:
-					throw new IOException("wstring is unsupported");
-				case Int32:
-				case Color:
-				case Pointer:
-					current.value = String.valueOf(input.readInt());
-					break;
-				case UInt64:
-					current.value = String.valueOf(input.readLong());
-					break;
-				case Float32:
-					current.value = String.valueOf(input.readFloat());
-					break;
-				default:
-					throw new IOException("Unknown KV type encountered.");
-				}
-			} catch (final IOException e) {
-				throw new IOException(String.format("An exception ocurred while reading KV '%s'", current.name), e);
-			}
-
-			children.add(current);
+			return true;
 		}
 
-		return input.isAtEnd();
+		return false;
 	}
 }

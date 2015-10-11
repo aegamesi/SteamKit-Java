@@ -21,7 +21,7 @@ public final class LoginKeyCallback extends CallbackMsg {
 	private final int uniqueId;
 
 	public LoginKeyCallback(CMsgClientNewLoginKey logKey) {
-		loginKey = logKey.getLoginKey();
-		uniqueId = logKey.getUniqueId();
+		loginKey = logKey.loginKey;
+		uniqueId = logKey.uniqueId;
 	}
 }

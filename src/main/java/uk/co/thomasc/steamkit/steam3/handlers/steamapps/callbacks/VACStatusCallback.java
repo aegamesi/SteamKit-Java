@@ -1,5 +1,7 @@
 package uk.co.thomasc.steamkit.steam3.handlers.steamapps.callbacks;
 
+import com.google.protobuf.CodedInputStream;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +9,6 @@ import java.util.List;
 import lombok.Getter;
 import uk.co.thomasc.steamkit.base.generated.steamlanguageinternal.msg.MsgClientVACBanStatus;
 import uk.co.thomasc.steamkit.steam3.steamclient.callbackmgr.CallbackMsg;
-
-import com.google.protobuf.CodedInputStream;
 
 /**
  * This callback is fired when the client receives it's VAC banned status.

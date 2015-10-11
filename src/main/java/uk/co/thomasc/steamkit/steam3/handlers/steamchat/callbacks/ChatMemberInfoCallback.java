@@ -1,9 +1,9 @@
-package uk.co.thomasc.steamkit.steam3.handlers.steamfriends.callbacks;
+package uk.co.thomasc.steamkit.steam3.handlers.steamchat.callbacks;
 
 import lombok.Getter;
 import uk.co.thomasc.steamkit.base.generated.steamlanguage.EChatInfoType;
 import uk.co.thomasc.steamkit.base.generated.steamlanguageinternal.msg.MsgClientChatMemberInfo;
-import uk.co.thomasc.steamkit.steam3.handlers.steamfriends.types.StateChangeDetails;
+import uk.co.thomasc.steamkit.steam3.handlers.steamchat.types.StateChangeDetails;
 import uk.co.thomasc.steamkit.steam3.steamclient.callbackmgr.CallbackMsg;
 import uk.co.thomasc.steamkit.types.steamid.SteamID;
 
@@ -35,10 +35,9 @@ public final class ChatMemberInfoCallback extends CallbackMsg {
 		type = msg.type;
 
 		switch (type) {
-		case StateChange:
-			stateChangeInfo = new StateChangeDetails(payload);
-			break;
-		//TODO: handle more types
+			case StateChange:
+				stateChangeInfo = new StateChangeDetails(payload);
+				break;
 		}
 	}
 }

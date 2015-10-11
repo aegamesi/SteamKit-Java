@@ -1,7 +1,7 @@
 package uk.co.thomasc.steamkit.steam3.handlers.steamuser.callbacks;
 
 import lombok.Getter;
-import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgClientUpdateMachineAuth;
+import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver2.CMsgClientUpdateMachineAuth;
 import uk.co.thomasc.steamkit.steam3.steamclient.callbackmgr.CallbackMsg;
 
 /**
@@ -41,17 +41,17 @@ public final class UpdateMachineAuthCallback extends CallbackMsg {
 	private final OTPDetailsCallback oneTimePassword;
 
 	public UpdateMachineAuthCallback(CMsgClientUpdateMachineAuth msg) {
-		data = msg.getBytes().toByteArray();
+		data = msg.bytes;
 
-		bytesToWrite = msg.getCubtowrite();
-		offset = msg.getOffset();
+		bytesToWrite = msg.cubtowrite;
+		offset = msg.offset;
 
-		fileName = msg.getFilename();
+		fileName = msg.filename;
 
 		oneTimePassword = new OTPDetailsCallbackInternal();
-		oneTimePassword.type = msg.getOtpType();
-		oneTimePassword.identifier = msg.getOtpIdentifier();
-		((OTPDetailsCallbackInternal) oneTimePassword).setSharedSecret(msg.getOtpSharedsecret().toByteArray());
-		((OTPDetailsCallbackInternal) oneTimePassword).setTimeDrift(msg.getOtpTimedrift());
+		oneTimePassword.type = msg.otpType;
+		oneTimePassword.identifier = msg.otpIdentifier;
+		((OTPDetailsCallbackInternal) oneTimePassword).setSharedSecret(msg.otpSharedsecret);
+		((OTPDetailsCallbackInternal) oneTimePassword).setTimeDrift(msg.otpTimedrift);
 	}
 }

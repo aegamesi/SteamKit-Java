@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
-import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgClientUCMEnumeratePublishedFilesByUserActionResponse;
-import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgClientUCMEnumeratePublishedFilesByUserActionResponse.PublishedFileId;
+import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver2.CMsgClientUCMEnumeratePublishedFilesByUserActionResponse;
+import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver2.CMsgClientUCMEnumeratePublishedFilesByUserActionResponse.PublishedFileId;
 import uk.co.thomasc.steamkit.base.generated.steamlanguage.EResult;
 import uk.co.thomasc.steamkit.steam3.handlers.steamworkshop.SteamWorkshop;
 import uk.co.thomasc.steamkit.steam3.handlers.steamworkshop.types.EnumerationUserDetails;
@@ -37,12 +37,12 @@ public final class UserActionPublishedFilesCallback extends CallbackMsg {
 	private final int totalResults;
 
 	public UserActionPublishedFilesCallback(CMsgClientUCMEnumeratePublishedFilesByUserActionResponse msg) {
-		result = EResult.f(msg.getEresult());
+		result = EResult.f(msg.eresult);
 
-		for (final PublishedFileId f : msg.getPublishedFilesList()) {
+		for (final PublishedFileId f : msg.publishedFiles) {
 			files.add(new FilePublished(f));
 		}
 
-		totalResults = msg.getTotalResults();
+		totalResults = msg.totalResults;
 	}
 }

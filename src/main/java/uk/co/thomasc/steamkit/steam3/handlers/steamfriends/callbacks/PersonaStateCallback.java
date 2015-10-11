@@ -5,7 +5,6 @@ import java.util.Date;
 
 import lombok.Getter;
 import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgClientPersonaState;
-import uk.co.thomasc.steamkit.base.generated.steamlanguage.EClientPersonaStateFlag;
 import uk.co.thomasc.steamkit.base.generated.steamlanguage.EPersonaState;
 import uk.co.thomasc.steamkit.steam3.steamclient.callbackmgr.CallbackMsg;
 import uk.co.thomasc.steamkit.types.gameid.GameID;
@@ -21,7 +20,7 @@ public final class PersonaStateCallback extends CallbackMsg {
 	 * Gets the status flags. This shows what has changed.
 	 */
 	@Getter
-	private final EClientPersonaStateFlag statusFlags;
+	private final int statusFlags;
 
 	/**
 	 * Gets the friend ID.
@@ -132,34 +131,34 @@ public final class PersonaStateCallback extends CallbackMsg {
 	private final int publishedSessionID;
 
 	public PersonaStateCallback(CMsgClientPersonaState.Friend friend) {
-		statusFlags = EClientPersonaStateFlag.f(friend.getPersonaStateFlags());
+		statusFlags = friend.personaStateFlags;
 
-		friendID = new SteamID(friend.getFriendid());
-		state = EPersonaState.f(friend.getPersonaState());
+		friendID = new SteamID(friend.friendid);
+		state = EPersonaState.f(friend.personaState);
 
-		gameAppID = friend.getGamePlayedAppId();
-		gameID = new GameID(friend.getGameid());
-		gameName = friend.getGameName();
+		gameAppID = friend.gamePlayedAppId;
+		gameID = new GameID(friend.gameid);
+		gameName = friend.gameName;
 
-		gameServerIP = NetHelpers.getIPAddress(friend.getGameServerIp());
-		gameServerPort = friend.getGameServerPort();
-		queryPort = friend.getQueryPort();
+		gameServerIP = NetHelpers.getIPAddress(friend.gameServerIp);
+		gameServerPort = friend.gameServerPort;
+		queryPort = friend.queryPort;
 
-		sourceSteamID = new SteamID(friend.getSteamidSource());
+		sourceSteamID = new SteamID(friend.steamidSource);
 
-		gameDataBlob = friend.getGameDataBlob().toByteArray();
+		gameDataBlob = friend.gameDataBlob;
 
-		name = friend.getPlayerName();
+		name = friend.playerName;
 
-		avatarHash = friend.getAvatarHash().toByteArray();
+		avatarHash = friend.avatarHash;
 
-		lastLogOff = new Date(friend.getLastLogoff());
-		lastLogOn = new Date(friend.getLastLogon());
+		lastLogOff = new Date(friend.lastLogoff);
+		lastLogOn = new Date(friend.lastLogon);
 
-		clanRank = friend.getClanRank();
-		clanTag = friend.getClanTag();
+		clanRank = friend.clanRank;
+		clanTag = friend.clanTag;
 
-		onlineSessionInstances = friend.getOnlineSessionInstances();
-		publishedSessionID = friend.getPublishedInstanceId();
+		onlineSessionInstances = friend.onlineSessionInstances;
+		publishedSessionID = friend.publishedInstanceId;
 	}
 }

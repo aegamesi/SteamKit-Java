@@ -1,7 +1,7 @@
 package uk.co.thomasc.steamkit.steam3.handlers.steamworkshop.types;
 
 import lombok.Getter;
-import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgClientUCMEnumerateUserPublishedFilesResponse;
+import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver2.CMsgClientUCMEnumerateUserPublishedFilesResponse;
 
 /**
  * Represents the details of a single published file.
@@ -14,7 +14,7 @@ public class File {
 	private final long fileId;
 
 	public File(CMsgClientUCMEnumerateUserPublishedFilesResponse.PublishedFileId file) {
-		fileId = file.getPublishedFileId();
+		fileId = file.publishedFileId;
 	}
 
 	public File(long fileId) {

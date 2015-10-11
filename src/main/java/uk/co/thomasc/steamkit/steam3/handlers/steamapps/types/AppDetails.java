@@ -1,8 +1,5 @@
 package uk.co.thomasc.steamkit.steam3.handlers.steamapps.types;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.Getter;
 import uk.co.thomasc.steamkit.steam3.handlers.steamapps.SteamApps;
 
@@ -25,7 +22,7 @@ public final class AppDetails {
 	 * Gets the Section CRC list for this request.
 	 */
 	@Getter
-	private final List<Integer> sectionCRC = new ArrayList<Integer>();
+	private final int[] sectionCRC = null;
 
 	/**
 	 * Initializes a new instance of the {@link AppDetails} class.

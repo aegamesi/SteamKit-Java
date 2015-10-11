@@ -5,8 +5,9 @@ import java.util.Set;
 
 import lombok.Getter;
 import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgClientFriendsList;
-import uk.co.thomasc.steamkit.steam3.handlers.steamfriends.types.Friend;
+import uk.co.thomasc.steamkit.base.generated.steamlanguage.EFriendRelationship;
 import uk.co.thomasc.steamkit.steam3.steamclient.callbackmgr.CallbackMsg;
+import uk.co.thomasc.steamkit.types.steamid.SteamID;
 
 /**
  * This callback is fired when the client receives a list of friends.
@@ -26,10 +27,33 @@ public final class FriendsListCallback extends CallbackMsg {
 	private final Set<Friend> friendList = new HashSet<Friend>();
 
 	public FriendsListCallback(CMsgClientFriendsList msg) {
-		incremental = msg.getBincremental();
+		incremental = msg.bincremental;
 
-		for (final CMsgClientFriendsList.Friend friend : msg.getFriendsList()) {
+		for (final CMsgClientFriendsList.Friend friend : msg.friends) {
 			friendList.add(new Friend(friend));
 		}
 	}
+
+	/**
+	 * Represents a single friend entry in a client's friendlist.
+	 */
+	public final class Friend {
+		/**
+		 * Gets the SteamID of the friend.
+		 */
+		@Getter
+		private final SteamID steamId;
+
+		/**
+		 * Gets the relationship to this friend.
+		 */
+		@Getter
+		private final EFriendRelationship relationship;
+
+		public Friend(CMsgClientFriendsList.Friend friend) {
+			steamId = new SteamID(friend.ulfriendid);
+			relationship = EFriendRelationship.f(friend.efriendrelationship);
+		}
+	}
+
 }

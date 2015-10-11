@@ -1,7 +1,7 @@
 package uk.co.thomasc.steamkit.steam3.handlers.steamtrading.callbacks;
 
 import lombok.Getter;
-import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgTrading_StartSession;
+import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver2.CMsgTrading_StartSession;
 import uk.co.thomasc.steamkit.steam3.steamclient.callbackmgr.CallbackMsg;
 import uk.co.thomasc.steamkit.types.steamid.SteamID;
 
@@ -17,6 +17,6 @@ public final class SessionStartCallback extends CallbackMsg {
 	private final SteamID otherClient;
 
 	public SessionStartCallback(CMsgTrading_StartSession msg) {
-		otherClient = new SteamID(msg.getOtherSteamid());
+		otherClient = new SteamID(msg.otherSteamid);
 	}
 }

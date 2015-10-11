@@ -65,18 +65,18 @@ public final class AccountInfoCallback extends CallbackMsg {
 	private final String facebookName;
 
 	public AccountInfoCallback(CMsgClientAccountInfo msg) {
-		personaName = msg.getPersonaName();
-		country = msg.getIpCountry();
+		personaName = msg.personaName;
+		country = msg.ipCountry;
 
-		passwordSalt = msg.getSaltPassword().toByteArray();
-		passwordSHADisgest = msg.getShaDigestPassword().toByteArray();
+		passwordSalt = msg.saltPassword;
+		passwordSHADisgest = msg.shaDigestPassword;
 
-		countAuthedComputers = msg.getCountAuthedComputers();
-		lockedWithIPT = msg.getLockedWithIpt();
+		countAuthedComputers = msg.countAuthedComputers;
+		lockedWithIPT = msg.lockedWithIpt;
 
-		accountFlags = EAccountFlags.f(msg.getAccountFlags());
+		accountFlags = EAccountFlags.f(msg.accountFlags);
 
-		facebookID = msg.getFacebookId();
-		facebookName = msg.getFacebookName();
+		facebookID = msg.facebookId;
+		facebookName = msg.facebookName;
 	}
 }

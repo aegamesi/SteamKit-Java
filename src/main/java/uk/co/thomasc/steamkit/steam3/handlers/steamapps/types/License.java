@@ -79,23 +79,23 @@ public final class License {
 	private final int territoryCode;
 
 	public License(CMsgClientLicenseList.License license) {
-		packageID = license.getPackageId();
+		packageID = license.packageId;
 
-		lastChangeNumber = license.getChangeNumber();
+		lastChangeNumber = license.changeNumber;
 
-		timeCreated = new Date(license.getTimeCreated());
-		timeNextProcess = new Date(license.getTimeNextProcess());
+		timeCreated = new Date(license.timeCreated);
+		timeNextProcess = new Date(license.timeNextProcess);
 
-		minuteLimit = license.getMinuteLimit();
-		minutesUsed = license.getMinutesUsed();
+		minuteLimit = license.minuteLimit;
+		minutesUsed = license.minutesUsed;
 
-		paymentMethod = EPaymentMethod.f(license.getPaymentMethod());
-		licenseFlags = ELicenseFlags.f(license.getFlags());
+		paymentMethod = EPaymentMethod.f(license.paymentMethod);
+		licenseFlags = ELicenseFlags.f(license.flags);
 
-		purchaseCountryCode = license.getPurchaseCountryCode();
+		purchaseCountryCode = license.purchaseCountryCode;
 
-		licenseType = ELicenseType.f(license.getLicenseType());
+		licenseType = ELicenseType.f(license.licenseType);
 
-		territoryCode = license.getTerritoryCode();
+		territoryCode = license.territoryCode;
 	}
 }

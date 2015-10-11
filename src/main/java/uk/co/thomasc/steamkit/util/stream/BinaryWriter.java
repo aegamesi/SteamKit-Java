@@ -1,11 +1,11 @@
 package uk.co.thomasc.steamkit.util.stream;
 
+import com.google.protobuf.CodedOutputStream;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-
-import com.google.protobuf.CodedOutputStream;
 
 public class BinaryWriter {
 

@@ -49,14 +49,14 @@ public final class UGCDetailsCallback extends CallbackMsg {
 	private final int fileSize;
 
 	public UGCDetailsCallback(CMsgClientUFSGetUGCDetailsResponse msg) {
-		result = EResult.f(msg.getEresult());
+		result = EResult.f(msg.eresult);
 
-		appID = msg.getAppId();
-		creator = new SteamID(msg.getSteamidCreator());
+		appID = msg.appId;
+		creator = new SteamID(msg.steamidCreator);
 
-		URL = msg.getUrl();
+		URL = msg.url;
 
-		fileName = msg.getFilename();
-		fileSize = msg.getFileSize();
+		fileName = msg.filename;
+		fileSize = msg.fileSize;
 	}
 }

@@ -8,26 +8,29 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.atomic.AtomicLong;
 
-import javax.management.openmbean.InvalidOpenTypeException;
-
+import uk.co.thomasc.steamkit.base.ClientMsgProtobuf;
 import uk.co.thomasc.steamkit.base.IPacketMsg;
 import uk.co.thomasc.steamkit.base.Msg;
+import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver;
 import uk.co.thomasc.steamkit.base.generated.steamlanguage.EMsg;
 import uk.co.thomasc.steamkit.base.generated.steamlanguage.EResult;
 import uk.co.thomasc.steamkit.base.generated.steamlanguageinternal.msg.MsgChannelEncryptResult;
 import uk.co.thomasc.steamkit.steam3.CMClient;
 import uk.co.thomasc.steamkit.steam3.handlers.ClientMsgHandler;
 import uk.co.thomasc.steamkit.steam3.handlers.steamapps.SteamApps;
+import uk.co.thomasc.steamkit.steam3.handlers.steamchat.SteamChat;
 import uk.co.thomasc.steamkit.steam3.handlers.steamcloud.SteamCloud;
 import uk.co.thomasc.steamkit.steam3.handlers.steamfriends.SteamFriends;
 import uk.co.thomasc.steamkit.steam3.handlers.steamgamecoordinator.SteamGameCoordinator;
 import uk.co.thomasc.steamkit.steam3.handlers.steamgameserver.SteamGameServer;
 import uk.co.thomasc.steamkit.steam3.handlers.steammasterserver.SteamMasterServer;
+import uk.co.thomasc.steamkit.steam3.handlers.steamnotifications.SteamNotifications;
 import uk.co.thomasc.steamkit.steam3.handlers.steamtrading.SteamTrading;
 import uk.co.thomasc.steamkit.steam3.handlers.steamuser.SteamUser;
 import uk.co.thomasc.steamkit.steam3.handlers.steamuserstats.SteamUserStats;
 import uk.co.thomasc.steamkit.steam3.handlers.steamworkshop.SteamWorkshop;
 import uk.co.thomasc.steamkit.steam3.steamclient.callbackmgr.CallbackMsg;
+import uk.co.thomasc.steamkit.steam3.steamclient.callbacks.CMListCallback;
 import uk.co.thomasc.steamkit.steam3.steamclient.callbacks.ConnectedCallback;
 import uk.co.thomasc.steamkit.steam3.steamclient.callbacks.DisconnectedCallback;
 import uk.co.thomasc.steamkit.types.JobID;
@@ -73,6 +76,8 @@ public final class SteamClient extends CMClient {
 		addHandler(new SteamCloud());
 		addHandler(new SteamWorkshop());
 		addHandler(new SteamTrading());
+		addHandler(new SteamNotifications());
+		addHandler(new SteamChat());
 	}
 
 	/**
@@ -83,7 +88,7 @@ public final class SteamClient extends CMClient {
 	 * @throws IllegalArgumentException
 	 *             A handler of that type is already registered.
 	 */
-	public void addHandler(ClientMsgHandler handler) throws InvalidOpenTypeException {
+	public void addHandler(ClientMsgHandler handler) {
 		if (handlers.containsKey(handler.getClass())) {
 			throw new IllegalArgumentException(String.format("A handler of type \"%s\" is already registered.", handler.getClass()));
 		}
@@ -307,6 +312,10 @@ public final class SteamClient extends CMClient {
 			handleEncryptResult_2(packetMsg); // we're interested in this client message to post the connected callback
 		}
 
+		if(packetMsg.getMsgType() == EMsg.ClientCMList) {
+			handleCMList(packetMsg);
+		}
+
 		// pass along the clientmsg to all registered handlers
 		final Iterator<ClientMsgHandler> it = handlers.values().iterator();
 		while (it.hasNext()) {
@@ -337,4 +346,10 @@ public final class SteamClient extends CMClient {
 		postCallback(new ConnectedCallback(encResult.getBody()));
 	}
 
+	protected void handleCMList(IPacketMsg packetMsg) {
+		final ClientMsgProtobuf<SteammessagesClientserver.CMsgClientCMList> cmList = new ClientMsgProtobuf<SteammessagesClientserver.CMsgClientCMList>(SteammessagesClientserver.CMsgClientCMList.class, packetMsg);
+
+		final CMListCallback cmListCallback = new CMListCallback(cmList.getBody());
+		postCallback(cmListCallback);
+	}
 }

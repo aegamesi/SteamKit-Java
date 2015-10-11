@@ -99,6 +99,7 @@ public final class WebAPI {
 		} else {
 			conn = (HttpURLConnection) new URL(urlBuilder.toString()).openConnection();
 			conn.setRequestMethod("POST");
+			conn.setConnectTimeout(10000);
 			conn.setDoOutput(true);
 			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
 			conn.setRequestProperty("Content-Length", Integer.toString(paramBuilder.toString().getBytes().length));

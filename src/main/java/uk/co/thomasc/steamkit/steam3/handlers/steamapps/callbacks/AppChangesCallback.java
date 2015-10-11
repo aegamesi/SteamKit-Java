@@ -1,7 +1,5 @@
 package uk.co.thomasc.steamkit.steam3.handlers.steamapps.callbacks;
 
-import java.util.List;
-
 import lombok.Getter;
 import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgClientAppInfoChanges;
 import uk.co.thomasc.steamkit.steam3.handlers.steamapps.SteamApps;
@@ -17,7 +15,7 @@ public final class AppChangesCallback extends CallbackMsg {
 	 * request.
 	 */
 	@Getter
-	private final List<Integer> appIDs;
+	private final int[] appIDs;
 
 	/**
 	 * Gets the current change number.
@@ -32,9 +30,9 @@ public final class AppChangesCallback extends CallbackMsg {
 	public boolean forceFullUpdate;
 
 	public AppChangesCallback(CMsgClientAppInfoChanges msg) {
-		appIDs = msg.getAppIDsList();
-		currentChangeNumber = msg.getCurrentChangeNumber();
+		appIDs = msg.appIDs;
+		currentChangeNumber = msg.currentChangeNumber;
 
-		forceFullUpdate = msg.getForceFullUpdate();
+		forceFullUpdate = msg.forceFullUpdate;
 	}
 }

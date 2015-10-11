@@ -1,4 +1,4 @@
-package uk.co.thomasc.steamkit.steam3.handlers.steamfriends.callbacks;
+package uk.co.thomasc.steamkit.steam3.handlers.steamchat.callbacks;
 
 import lombok.Getter;
 import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgClientChatInvite;
@@ -54,16 +54,16 @@ public final class ChatInviteCallback extends CallbackMsg {
 	private final GameID gameID;
 
 	public ChatInviteCallback(CMsgClientChatInvite invite) {
-		invitedID = new SteamID(invite.getSteamIdInvited());
-		chatRoomID = new SteamID(invite.getSteamIdChat());
+		invitedID = new SteamID(invite.steamIdInvited);
+		chatRoomID = new SteamID(invite.steamIdChat);
 
-		patronID = new SteamID(invite.getSteamIdPatron());
+		patronID = new SteamID(invite.steamIdPatron);
 
-		chatRoomType = EChatRoomType.f(invite.getChatroomType());
+		chatRoomType = EChatRoomType.f(invite.chatroomType);
 
-		friendChatID = new SteamID(invite.getSteamIdFriendChat());
+		friendChatID = new SteamID(invite.steamIdFriendChat);
 
-		chatRoomName = invite.getChatName();
-		gameID = new GameID(invite.getGameId());
+		chatRoomName = invite.chatName;
+		gameID = new GameID(invite.gameId);
 	}
 }

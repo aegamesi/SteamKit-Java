@@ -21,8 +21,6 @@ import uk.co.thomasc.steamkit.types.steamid.SteamID;
 import uk.co.thomasc.steamkit.util.util.NetHelpers;
 import uk.co.thomasc.steamkit.util.util.Utils;
 
-import com.google.protobuf.ByteString;
-
 /**
  * This handler is used for interacting with the Steam network as a game server.
  */
@@ -44,24 +42,24 @@ public final class SteamGameServer extends ClientMsgHandler {
 			throw new InvalidParameterException("LogOn requires a username and password to be set in 'details'.");
 		}
 
-		final ClientMsgProtobuf<CMsgClientLogon.Builder> logon = new ClientMsgProtobuf<CMsgClientLogon.Builder>(CMsgClientLogon.class, EMsg.ClientLogon);
+		final ClientMsgProtobuf<CMsgClientLogon> logon = new ClientMsgProtobuf<CMsgClientLogon>(CMsgClientLogon.class, EMsg.ClientLogon);
 
 		final SteamID gsId = new SteamID(0, 0, getClient().getConnectedUniverse(), EAccountType.GameServer);
 
-		logon.getProtoHeader().setClientSessionid(0);
-		logon.getProtoHeader().setSteamid(gsId.convertToLong());
+		logon.getProtoHeader().clientSessionid = 0;
+		logon.getProtoHeader().steamid = gsId.convertToLong();
 
 		final int localIp = (int) NetHelpers.getIPAddress(getClient().getLocalIP());
-		logon.getBody().setObfustucatedPrivateIp(localIp ^ MsgClientLogon.ObfuscationMask);
+		logon.getBody().obfustucatedPrivateIp = localIp ^ MsgClientLogon.ObfuscationMask;
 
-		logon.getBody().setProtocolVersion(MsgClientLogon.CurrentProtocol);
+		logon.getBody().protocolVersion = MsgClientLogon.CurrentProtocol;
 
-		logon.getBody().setClientOsType(Utils.getOSType().v());
-		logon.getBody().setGameServerAppId(details.appId);
-		logon.getBody().setMachineId(ByteString.copyFromUtf8(machineID));
+		logon.getBody().clientOsType = Utils.getOSType().v();
+		logon.getBody().gameServerAppId = details.appId;
+		logon.getBody().machineId = machineID.getBytes();
 
-		logon.getBody().setAccountName(details.username);
-		logon.getBody().setPassword(details.password);
+		logon.getBody().accountName = details.username;
+		logon.getBody().password = details.password;
 
 		getClient().send(logon);
 	}
@@ -75,21 +73,21 @@ public final class SteamGameServer extends ClientMsgHandler {
 	 *            The AppID served by this game server, or 0 for the default.
 	 */
 	public void logOnAnonymous(int appId, String machineID) {
-		final ClientMsgProtobuf<CMsgClientLogon.Builder> logon = new ClientMsgProtobuf<CMsgClientLogon.Builder>(CMsgClientLogon.class, EMsg.ClientLogon);
+		final ClientMsgProtobuf<CMsgClientLogon> logon = new ClientMsgProtobuf<CMsgClientLogon>(CMsgClientLogon.class, EMsg.ClientLogon);
 
 		final SteamID gsId = new SteamID(0, 0, getClient().getConnectedUniverse(), EAccountType.AnonGameServer);
 
-		logon.getProtoHeader().setClientSessionid(0);
-		logon.getProtoHeader().setSteamid(gsId.convertToLong());
+		logon.getProtoHeader().clientSessionid = 0;
+		logon.getProtoHeader().steamid = gsId.convertToLong();
 
 		final int localIp = (int) NetHelpers.getIPAddress(getClient().getLocalIP());
-		logon.getBody().setObfustucatedPrivateIp(localIp ^ MsgClientLogon.ObfuscationMask);
+		logon.getBody().obfustucatedPrivateIp = localIp ^ MsgClientLogon.ObfuscationMask;
 
-		logon.getBody().setProtocolVersion(MsgClientLogon.CurrentProtocol);
+		logon.getBody().protocolVersion = MsgClientLogon.CurrentProtocol;
 
-		logon.getBody().setClientOsType(Utils.getOSType().v());
-		logon.getBody().setGameServerAppId(appId);
-		logon.getBody().setMachineId(ByteString.copyFromUtf8(machineID));
+		logon.getBody().clientOsType = Utils.getOSType().v();
+		logon.getBody().gameServerAppId = appId;
+		logon.getBody().machineId = machineID.getBytes();
 
 		getClient().send(logon);
 	}
@@ -104,7 +102,7 @@ public final class SteamGameServer extends ClientMsgHandler {
 	 * {@link LoggedOffCallback}.
 	 */
 	public void logOff() {
-		final ClientMsgProtobuf<CMsgClientLogOff.Builder> logOff = new ClientMsgProtobuf<CMsgClientLogOff.Builder>(CMsgClientLogOff.class, EMsg.ClientLogOff);
+		final ClientMsgProtobuf<CMsgClientLogOff> logOff = new ClientMsgProtobuf<CMsgClientLogOff>(CMsgClientLogOff.class, EMsg.ClientLogOff);
 		getClient().send(logOff);
 	}
 
@@ -124,16 +122,16 @@ public final class SteamGameServer extends ClientMsgHandler {
 	}
 
 	void handleStatusReply(IPacketMsg packetMsg) {
-		final ClientMsgProtobuf<CMsgGSStatusReply.Builder> statusReply = new ClientMsgProtobuf<CMsgGSStatusReply.Builder>(CMsgGSStatusReply.class, packetMsg);
+		final ClientMsgProtobuf<CMsgGSStatusReply> statusReply = new ClientMsgProtobuf<CMsgGSStatusReply>(CMsgGSStatusReply.class, packetMsg);
 
-		final StatusReplyCallback callback = new StatusReplyCallback(statusReply.getBody().build());
+		final StatusReplyCallback callback = new StatusReplyCallback(statusReply.getBody());
 		getClient().postCallback(callback);
 	}
 
 	void handleAuthComplete(IPacketMsg packetMsg) {
-		final ClientMsgProtobuf<CMsgClientTicketAuthComplete.Builder> authComplete = new ClientMsgProtobuf<CMsgClientTicketAuthComplete.Builder>(CMsgClientTicketAuthComplete.class, packetMsg);
+		final ClientMsgProtobuf<CMsgClientTicketAuthComplete> authComplete = new ClientMsgProtobuf<CMsgClientTicketAuthComplete>(CMsgClientTicketAuthComplete.class, packetMsg);
 
-		final TicketAuthCallback callback = new TicketAuthCallback(authComplete.getBody().build());
+		final TicketAuthCallback callback = new TicketAuthCallback(authComplete.getBody());
 		getClient().postCallback(callback);
 	}
 }

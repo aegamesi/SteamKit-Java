@@ -10,14 +10,12 @@ import uk.co.thomasc.steamkit.base.gc.IClientGCMsg;
 import uk.co.thomasc.steamkit.base.gc.tf2.ECraftingRecipe;
 import uk.co.thomasc.steamkit.base.gc.tf2.GCMsgCraftItem;
 import uk.co.thomasc.steamkit.base.gc.tf2.GCMsgCraftItemResponse;
-import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgGCClient;
+import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver2.CMsgGCClient;
 import uk.co.thomasc.steamkit.base.generated.steamlanguage.EMsg;
 import uk.co.thomasc.steamkit.steam3.handlers.ClientMsgHandler;
 import uk.co.thomasc.steamkit.steam3.handlers.steamgamecoordinator.callbacks.CraftResponseCallback;
 import uk.co.thomasc.steamkit.steam3.handlers.steamgamecoordinator.callbacks.MessageCallback;
 import uk.co.thomasc.steamkit.util.util.MsgUtil;
-
-import com.google.protobuf.ByteString;
 
 /**
  * This handler handles all game coordinator messaging.
@@ -56,13 +54,13 @@ public final class SteamGameCoordinator extends ClientMsgHandler {
 	 *            The app id of the game coordinator to send to.
 	 */
 	public void send(IClientGCMsg msg, int appId) {
-		final ClientMsgProtobuf<CMsgGCClient.Builder> clientMsg = new ClientMsgProtobuf<CMsgGCClient.Builder>(CMsgGCClient.class, EMsg.ClientToGC);
+		final ClientMsgProtobuf<CMsgGCClient> clientMsg = new ClientMsgProtobuf<CMsgGCClient>(CMsgGCClient.class, EMsg.ClientToGC);
 
-		clientMsg.getBody().setMsgtype(MsgUtil.makeGCMsg(msg.getMsgType(), msg.isProto()));
-		clientMsg.getBody().setAppid(appId);
+		clientMsg.getBody().msgtype = MsgUtil.makeGCMsg(msg.getMsgType(), msg.isProto());
+		clientMsg.getBody().appid = appId;
 
 		try {
-			clientMsg.getBody().setPayload(ByteString.copyFrom(msg.serialize()));
+			clientMsg.getBody().payload = msg.serialize();
 
 			getClient().send(clientMsg);
 		} catch (final IOException e) {
@@ -78,15 +76,15 @@ public final class SteamGameCoordinator extends ClientMsgHandler {
 	@Override
 	public void handleMsg(IPacketMsg packetMsg) {
 		if (packetMsg.getMsgType() == EMsg.ClientFromGC) {
-			final ClientMsgProtobuf<CMsgGCClient.Builder> msg = new ClientMsgProtobuf<CMsgGCClient.Builder>(CMsgGCClient.class, packetMsg);
+			final ClientMsgProtobuf<CMsgGCClient> msg = new ClientMsgProtobuf<CMsgGCClient>(CMsgGCClient.class, packetMsg);
 
-			final MessageCallback callback = new MessageCallback(msg.getBody().build());
+			final MessageCallback callback = new MessageCallback(msg.getBody());
 			getClient().postCallback(callback);
 
 			if (callback.getEMsg() == EGCMsgBase.CraftResponse) {
 				final ClientGCMsg<GCMsgCraftItemResponse> craftMsg = new ClientGCMsg<GCMsgCraftItemResponse>(GCMsgCraftItemResponse.class);
 				try {
-					craftMsg.deSerialize(msg.getBody().getPayload().toByteArray());
+					craftMsg.deSerialize(msg.getBody().payload);
 
 					final CraftResponseCallback craftCallback = new CraftResponseCallback(craftMsg.getBody());
 					getClient().postCallback(craftCallback);

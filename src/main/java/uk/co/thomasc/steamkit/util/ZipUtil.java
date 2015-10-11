@@ -1,5 +1,7 @@
 package uk.co.thomasc.steamkit.util;
 
+import com.google.protobuf.CodedOutputStream;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -11,8 +13,6 @@ import java.util.zip.Inflater;
 import uk.co.thomasc.steamkit.util.crypto.CryptoHelper;
 import uk.co.thomasc.steamkit.util.stream.BinaryReader;
 import uk.co.thomasc.steamkit.util.stream.BinaryWriter;
-
-import com.google.protobuf.CodedOutputStream;
 
 @SuppressWarnings("unused")
 public class ZipUtil {

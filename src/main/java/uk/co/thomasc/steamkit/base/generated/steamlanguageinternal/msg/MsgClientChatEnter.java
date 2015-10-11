@@ -68,6 +68,8 @@ public class MsgClientChatEnter implements ISteamSerializableMessage {
 	// Static size: 4
 	public EChatRoomEnterResponse enterResponse = null;
 
+	public int numMembers = 0;
+
 	public MsgClientChatEnter() {
 
 	}
@@ -81,7 +83,7 @@ public class MsgClientChatEnter implements ISteamSerializableMessage {
 		stream.write(steamIdClan);
 		stream.write(chatFlags);
 		stream.write(enterResponse.v());
-
+		stream.write(numMembers);
 	}
 
 	@Override
@@ -93,5 +95,6 @@ public class MsgClientChatEnter implements ISteamSerializableMessage {
 		steamIdClan = stream.readLong();
 		chatFlags = stream.readByte();
 		enterResponse = EChatRoomEnterResponse.f(stream.readInt());
+		numMembers = stream.readInt();
 	}
 }

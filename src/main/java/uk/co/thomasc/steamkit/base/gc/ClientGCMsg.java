@@ -3,7 +3,6 @@ package uk.co.thomasc.steamkit.base.gc;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
 import lombok.Getter;
 import uk.co.thomasc.steamkit.base.generated.steamlanguageinternal.IGCSerializableMessage;
@@ -185,7 +184,7 @@ public final class ClientGCMsg<T extends IGCSerializableMessage> extends GCMsgBa
 		final int payloadOffset = cs.getPosition();
 		final int payloadLen = cs.getRemaining();
 
-		setReader(new BinaryReader(new ByteArrayInputStream(copyOfRange(data, payloadOffset, payloadOffset + payloadLen))));
+		setPayload(new BinaryReader(new ByteArrayInputStream(copyOfRange(data, payloadOffset, payloadOffset + payloadLen))));
 	}
 	
 	public static byte[] copyOfRange(byte[] from, int start, int end){

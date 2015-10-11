@@ -27,9 +27,9 @@ public final class LicenseListCallback extends CallbackMsg {
 	private final List<License> licenseList = new ArrayList<License>();
 
 	public LicenseListCallback(CMsgClientLicenseList msg) {
-		result = EResult.f(msg.getEresult());
+		result = EResult.f(msg.eresult);
 
-		for (final CMsgClientLicenseList.License l : msg.getLicensesList()) {
+		for (final CMsgClientLicenseList.License l : msg.licenses) {
 			licenseList.add(new License(l));
 		}
 	}

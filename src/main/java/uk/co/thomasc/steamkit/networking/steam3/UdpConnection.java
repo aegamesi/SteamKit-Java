@@ -14,8 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.spongycastle.util.Arrays;
-
 import uk.co.thomasc.steamkit.base.IClientMsg;
 import uk.co.thomasc.steamkit.base.generated.steamlanguage.EUdpPacketType;
 import uk.co.thomasc.steamkit.base.generated.steamlanguageinternal.ChallengeData;

@@ -1,9 +1,10 @@
 package uk.co.thomasc.steamkit.base.generated.steamlanguageinternal;
 
+import com.google.protobuf.nano.MessageNano;
+
 import java.io.IOException;
 
 import uk.co.thomasc.steamkit.base.generated.SteammessagesBase.CMsgProtoBufHeader;
-import uk.co.thomasc.steamkit.base.generated.SteammessagesBase.CMsgProtoBufHeader.Builder;
 import uk.co.thomasc.steamkit.util.stream.BinaryReader;
 import uk.co.thomasc.steamkit.util.stream.BinaryWriter;
 import uk.co.thomasc.steamkit.util.util.MsgUtil;
@@ -20,7 +21,7 @@ public class MsgGCHdrProtoBuf implements IGCSerializableHeader {
 	// Static size: 4
 	public int headerLength = 0;
 	// Static size: 0
-	public Builder proto = CMsgProtoBufHeader.newBuilder();
+	public CMsgProtoBufHeader proto = new CMsgProtoBufHeader();
 
 	public MsgGCHdrProtoBuf() {
 
@@ -28,7 +29,7 @@ public class MsgGCHdrProtoBuf implements IGCSerializableHeader {
 
 	@Override
 	public void serialize(BinaryWriter stream) throws IOException {
-		final byte[] msProto = proto.build().toByteArray();
+		final byte[] msProto = MessageNano.toByteArray(proto);
 
 		headerLength = msProto.length;
 
@@ -42,6 +43,6 @@ public class MsgGCHdrProtoBuf implements IGCSerializableHeader {
 		msg = MsgUtil.getGCMsg(stream.readInt());
 		headerLength = stream.readInt();
 
-		proto.mergeFrom(stream.readBytes(headerLength));
+		proto = MessageNano.mergeFrom(proto, stream.readBytes(headerLength));
 	}
 }

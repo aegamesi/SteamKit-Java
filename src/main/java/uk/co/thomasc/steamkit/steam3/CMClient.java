@@ -2,7 +2,6 @@ package uk.co.thomasc.steamkit.steam3;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,23 +58,29 @@ import uk.co.thomasc.steamkit.util.util.NetHelpers;
  * should not be use directly, but through the {@link SteamClient} class.
  */
 public abstract class CMClient {
-	final short PortCM_PublicEncrypted = 27017;
-	final short PortCM_Public = 27014;
-
+	/**
+	 * Default addresses for CM servers.
+	 * Updated 5/13/2015
+	 */
+	public static final String[] default_addrs = new String[] {"208.78.164.12:27019","208.78.164.12:27018","208.78.164.9:27018","208.78.164.10:27019","208.78.164.9:27019","208.78.164.14:27018","208.78.164.9:27017","208.78.164.14:27019","208.78.164.12:27017","208.78.164.10:27018","208.78.164.14:27017","208.78.164.10:27017","208.64.201.176:27018","208.64.201.169:27021","208.64.200.204:27019","208.64.201.169:27017","208.64.201.169:27018","208.64.200.201:27020","208.64.200.137:27020","208.64.200.137:27017","72.165.61.175:27018","208.64.201.169:27020","72.165.61.185:27017","208.64.201.176:27017","208.64.201.169:27019","208.64.201.176:27019","208.64.200.205:27018","208.64.200.204:27018","208.64.200.203:27019","208.64.200.137:27018","72.165.61.174:27017","208.64.200.137:27019","208.64.200.204:27017","72.165.61.188:27017","208.64.200.205:27017","208.64.200.202:27019","208.64.200.203:27018","72.165.61.187:27017","208.64.200.202:27017","208.64.201.176:27020","208.64.200.201:27017","208.64.200.201:27019","208.64.200.203:27017","208.64.201.176:27021","208.64.200.201:27018","72.165.61.174:27018","72.165.61.175:27017","208.64.200.202:27018","208.64.200.205:27019","72.165.61.186:27017","146.66.152.13:27019","146.66.152.10:27019","146.66.152.12:27018","146.66.152.10:27018","162.254.197.40:27021","162.254.197.42:27021","162.254.197.42:27017","162.254.197.40:27018","162.254.197.43:27018","162.254.197.41:27019","162.254.197.41:27018","162.254.197.43:27019","162.254.197.43:27021","162.254.197.41:27020","146.66.152.10:27017","146.66.152.14:27019","162.254.197.42:27019","146.66.152.15:27019","146.66.152.14:27018","146.66.152.13:27018","146.66.152.15:27018","146.66.152.12:27017","146.66.152.14:27017","146.66.152.13:27017","146.66.152.12:27019","162.254.197.42:27020","162.254.197.43:27020","162.254.197.40:27019","162.254.197.43:27017","162.254.197.40:27017","162.254.197.41:27021","162.254.197.40:27020","162.254.197.42:27018","162.254.197.41:27017","146.66.152.15:27017","146.66.156.10:27020","146.66.156.11:27020","146.66.156.9:27018","146.66.156.11:27017","146.66.156.10:27019","146.66.156.10:27017","146.66.156.9:27017","146.66.156.9:27019","146.66.156.10:27018","146.66.156.11:27019","146.66.156.11:27018","146.66.156.9:27020","209.197.29.196:27018","209.197.29.197:27019","209.197.29.196:27019"};
 	/**
 	 * Bootstrap list of CM servers.
 	 */
-	public static final InetAddress[] Servers;
+	public static IPEndPoint[] Servers;
 	static {
-		String[] addrs = new String[] {"208.78.164.13", "208.78.164.10", "208.78.164.12", "208.78.164.14", "208.78.164.9", "72.165.61.188", "208.64.200.201", "208.64.200.205", "72.165.61.187", "208.64.200.203", "72.165.61.185", "72.165.61.175", "72.165.61.174", "208.64.201.176", "208.64.200.202", "208.64.201.169", "208.64.200.137", "208.64.200.204", "72.165.61.186", "208.78.164.11", "81.171.115.37", "81.171.115.35", "81.171.115.34", "81.171.115.36", "146.66.152.11", "146.66.152.12", "146.66.152.15", "146.66.152.10", "146.66.152.13", "146.66.152.14", "146.66.156.9", "146.66.156.10", "146.66.156.11", "209.197.29.196"};
-		InetAddress[] temp = new InetAddress[addrs.length];
-		try {
-			for(int i = 0; i < addrs.length; i++)
-				temp[i] = InetAddress.getByName(addrs[i]);
-		} catch (final UnknownHostException e) {
-			uk.co.thomasc.steamkit.util.logging.DebugLog.writeLine("NEW_EX", "Exception: %s", e);
-		}
-		Servers = temp;
+		updateCMServers(default_addrs);
+	}
+
+	/**
+	 * Updates the internal list of IP addresses for CMServers
+	 *
+	 * @param addrs	A String[] of IP addresses and ports to add to the internal list
+	 */
+	public static void updateCMServers(String[] addrs) {
+		Servers = new IPEndPoint[addrs.length];
+		for(int i = 0; i < addrs.length; i++)
+			Servers[i] = IPEndPoint.fromString(addrs[i]);
+
 		uk.co.thomasc.steamkit.util.logging.DebugLog.writeLine("CMClient", "Loaded IP list, length: " + Servers.length);
 	}
 
@@ -181,7 +186,7 @@ public abstract class CMClient {
 		heartBeatFunc = new ScheduledFunction(new Action() {
 			@Override
 			public void call() {
-				send(new ClientMsgProtobuf<CMsgClientHeartBeat.Builder>(CMsgClientHeartBeat.class, EMsg.ClientHeartBeat));
+				send(new ClientMsgProtobuf<CMsgClientHeartBeat>(CMsgClientHeartBeat.class, EMsg.ClientHeartBeat));
 			}
 		});
 	}
@@ -206,10 +211,9 @@ public abstract class CMClient {
 
 		final Random random = new Random();
 
-		final InetAddress server = CMClient.Servers[random.nextInt(CMClient.Servers.length)];
-		final IPEndPoint endPoint = new IPEndPoint(server, bEncrypted ? PortCM_PublicEncrypted : PortCM_Public);
+		final IPEndPoint server = CMClient.Servers[random.nextInt(CMClient.Servers.length)];
 
-		connection.connect(endPoint);
+		connection.connect(server);
 	}
 
 	/**
@@ -343,11 +347,11 @@ public abstract class CMClient {
 			return;
 		}
 
-		final ClientMsgProtobuf<CMsgMulti.Builder> msgMulti = new ClientMsgProtobuf<CMsgMulti.Builder>(CMsgMulti.class, packetMsg);
+		final ClientMsgProtobuf<CMsgMulti> msgMulti = new ClientMsgProtobuf<CMsgMulti>(CMsgMulti.class, packetMsg);
 
-		byte[] payload = msgMulti.getBody().getMessageBody().toByteArray();
+		byte[] payload = msgMulti.getBody().messageBody;
 
-		if (msgMulti.getBody().getSizeUnzipped() > 0) {
+		if (msgMulti.getBody().sizeUnzipped > 0) {
 			try {
 				payload = ZipUtil.deCompress(payload);
 			} catch (final IOException ex) {
@@ -372,13 +376,13 @@ public abstract class CMClient {
 			return;
 		}
 
-		final ClientMsgProtobuf<CMsgClientLogonResponse.Builder> logonResp = new ClientMsgProtobuf<CMsgClientLogonResponse.Builder>(CMsgClientLogonResponse.class, packetMsg);
+		final ClientMsgProtobuf<CMsgClientLogonResponse> logonResp = new ClientMsgProtobuf<CMsgClientLogonResponse>(CMsgClientLogonResponse.class, packetMsg);
 
-		if (EResult.f(logonResp.getBody().getEresult()) == EResult.OK) {
-			sessionId = logonResp.getProtoHeader().getClientSessionid();
-			steamId = new SteamID(logonResp.getProtoHeader().getSteamid());
+		if (EResult.f(logonResp.getBody().eresult) == EResult.OK) {
+			sessionId = logonResp.getProtoHeader().clientSessionid;
+			steamId = new SteamID(logonResp.getProtoHeader().steamid);
 
-			final int hbDelay = logonResp.getBody().getOutOfGameHeartbeatSeconds();
+			final int hbDelay = logonResp.getBody().outOfGameHeartbeatSeconds;
 
 			// restart heartbeat
 			heartBeatFunc.stop();
@@ -443,16 +447,16 @@ public abstract class CMClient {
 	}
 
 	void handleServerList(IPacketMsg packetMsg) {
-		final ClientMsgProtobuf<CMsgClientServerList.Builder> listMsg = new ClientMsgProtobuf<CMsgClientServerList.Builder>(CMsgClientServerList.class, packetMsg);
+		final ClientMsgProtobuf<CMsgClientServerList> listMsg = new ClientMsgProtobuf<CMsgClientServerList>(CMsgClientServerList.class, packetMsg);
 
-		for (final Server server : listMsg.getBody().getServersList()) {
-			final EServerType type = EServerType.f(server.getServerType());
+		for (final Server server : listMsg.getBody().servers) {
+			final EServerType type = EServerType.f(server.serverType);
 
 			if (!serverMap.containsKey(type)) {
 				serverMap.put(type, new ArrayList<IPEndPoint>());
 			}
 
-			serverMap.get(type).add(new IPEndPoint(NetHelpers.getIPAddress(server.getServerIp()), (short) server.getServerPort()));
+			serverMap.get(type).add(new IPEndPoint(NetHelpers.getIPAddress(server.serverIp), (short) server.serverPort));
 		}
 	}
 }

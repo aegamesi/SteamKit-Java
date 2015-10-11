@@ -28,6 +28,12 @@ public final class LogOnDetails {
 	public String authCode = "";
 
 	/**
+	 * The two factor auth code from the mobile app
+	 */
+	@Setter
+	public String twoFactorCode = "";
+
+	/**
 	 * Gets or sets the sentry file hash for this logon attempt, or null if no
 	 * sentry file is available.
 	 */
@@ -44,6 +50,16 @@ public final class LogOnDetails {
 	 * This is an optional request only needed for Steam2 content downloads.
 	 */
 	public boolean requestSteam2Ticket = false;
+
+	/**
+	 * Tells Steam if we should remember the password by getting a valid loginkey for future logons.
+	 */
+	public boolean shouldRememberPassword = false;
+
+	/**
+	 * The loginkey to use, for passwordless authentication
+	 */
+	public String loginkey = "";
 
 	/**
 	 * Initializes a new instance of the {@link LogOnDetails} class.

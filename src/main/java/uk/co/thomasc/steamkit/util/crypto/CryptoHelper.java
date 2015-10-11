@@ -1,5 +1,7 @@
 package uk.co.thomasc.steamkit.util.crypto;
 
+import org.spongycastle.jce.provider.BouncyCastleProvider;
+
 import java.nio.ByteBuffer;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -8,7 +10,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.security.Security;
-import java.util.Arrays;
 import java.util.zip.CRC32;
 
 import javax.crypto.BadPaddingException;
@@ -17,8 +18,6 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-
-import org.spongycastle.jce.provider.BouncyCastleProvider;
 
 import uk.co.thomasc.steamkit.util.classlesshasher.JenkinsHash;
 import uk.co.thomasc.steamkit.util.logging.Debug;

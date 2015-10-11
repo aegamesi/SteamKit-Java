@@ -1,11 +1,11 @@
 package uk.co.thomasc.steamkit.util.stream;
 
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.InvalidProtocolBufferException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-
-import com.google.protobuf.CodedInputStream;
-import com.google.protobuf.InvalidProtocolBufferException;
 
 public class BinaryReader {
 
@@ -91,6 +91,15 @@ public class BinaryReader {
 
 	public String readString() throws IOException {
 		return reader.readString();
+	}
+
+	public String readNullTermString() throws IOException {
+		int rb, i = 0;
+		final byte[] res = new byte[2048];
+		while ((rb = readByte()) != 0 && rb != -1) {
+			res[i++] = (byte) rb;
+		}
+		return new String(res, 0, i);
 	}
 
 }

@@ -1,7 +1,7 @@
 package uk.co.thomasc.steamkit.steam3.handlers.steamworkshop.types;
 
 import lombok.Getter;
-import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgCREEnumeratePublishedFilesResponse;
+import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver2.CMsgCREEnumeratePublishedFilesResponse;
 
 /**
  * Represents the details of a single published file.
@@ -32,13 +32,13 @@ public final class FileInfo extends File {
 	private final int downVotes;
 
 	public FileInfo(CMsgCREEnumeratePublishedFilesResponse.PublishedFileId file) {
-		super(file.getPublishedFileId());
+		super(file.publishedFileId);
 
-		reports = file.getReports();
+		reports = file.reports;
 
-		score = file.getScore();
+		score = file.score;
 
-		upVotes = file.getVotesFor();
-		downVotes = file.getVotesAgainst();
+		upVotes = file.votesFor;
+		downVotes = file.votesAgainst;
 	}
 }

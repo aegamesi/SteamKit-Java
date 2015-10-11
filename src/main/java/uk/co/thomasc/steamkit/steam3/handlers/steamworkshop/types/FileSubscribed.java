@@ -3,7 +3,7 @@ package uk.co.thomasc.steamkit.steam3.handlers.steamworkshop.types;
 import java.util.Date;
 
 import lombok.Getter;
-import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgClientUCMEnumerateUserSubscribedFilesResponse;
+import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver2.CMsgClientUCMEnumerateUserSubscribedFilesResponse;
 
 /**
  * Represents the details of a single published file.
@@ -16,8 +16,8 @@ public class FileSubscribed extends File {
 	private final Date timeSubscribed;
 
 	public FileSubscribed(CMsgClientUCMEnumerateUserSubscribedFilesResponse.PublishedFileId file) {
-		super(file.getPublishedFileId());
+		super(file.publishedFileId);
 
-		timeSubscribed = new Date(file.getRtime32Subscribed());
+		timeSubscribed = new Date(file.rtime32Subscribed);
 	}
 }

@@ -1,4 +1,4 @@
-package uk.co.thomasc.steamkit.steam3.handlers.steamfriends.callbacks;
+package uk.co.thomasc.steamkit.steam3.handlers.steamchat.callbacks;
 
 import lombok.Getter;
 import uk.co.thomasc.steamkit.base.generated.steamlanguage.EChatAction;

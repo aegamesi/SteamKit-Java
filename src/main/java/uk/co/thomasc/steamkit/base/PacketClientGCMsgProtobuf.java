@@ -68,8 +68,8 @@ public final class PacketClientGCMsgProtobuf implements IPacketGCMsg {
 			uk.co.thomasc.steamkit.util.logging.DebugLog.writeLine("NEW_EX", "Exception: %s", e);
 		}
 
-		targetJobID = new JobID(protobufHeader.proto.getJobidTarget());
-		sourceJobID = new JobID(protobufHeader.proto.getJobidSource());
+		targetJobID = new JobID(protobufHeader.proto.jobidTarget);
+		sourceJobID = new JobID(protobufHeader.proto.jobidSource);
 	}
 
 	/**

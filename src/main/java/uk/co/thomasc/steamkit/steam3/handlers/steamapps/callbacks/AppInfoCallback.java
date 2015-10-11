@@ -28,14 +28,14 @@ public final class AppInfoCallback extends CallbackMsg {
 	private final int appsPending;
 
 	public AppInfoCallback(CMsgClientAppInfoResponse msg) {
-		for (final CMsgClientAppInfoResponse.App app : msg.getAppsList()) {
+		for (final CMsgClientAppInfoResponse.App app : msg.apps) {
 			apps.add(new App(app, AppInfoStatus.OK));
 		}
 
-		for (final Integer app : msg.getAppsUnknownList()) {
+		for (final Integer app : msg.appsUnknown) {
 			apps.add(new App(app, AppInfoStatus.Unknown));
 		}
 
-		appsPending = msg.getAppsPending();
+		appsPending = msg.appsPending;
 	}
 }

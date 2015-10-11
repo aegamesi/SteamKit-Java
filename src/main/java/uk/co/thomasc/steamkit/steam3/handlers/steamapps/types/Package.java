@@ -44,13 +44,13 @@ public final class Package {
 	public Package(CMsgClientPackageInfoResponse.Package pack, PackageStatus status) {
 		this.status = status;
 
-		packageID = pack.getPackageId();
-		changeNumber = pack.getChangeNumber();
-		hash = pack.getSha().toByteArray();
+		packageID = pack.packageId;
+		changeNumber = pack.changeNumber;
+		hash = pack.sha;
 
 		data = new KeyValue();
 
-		final BinaryReader is = new BinaryReader(pack.getBuffer().toByteArray());
+		final BinaryReader is = new BinaryReader(pack.buffer);
 		try {
 			is.readInt(); // unknown uint at the beginning of the buffer
 			data.readAsBinary(is);

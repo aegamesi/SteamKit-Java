@@ -14,8 +14,6 @@ import uk.co.thomasc.steamkit.types.steam2ticket.Steam2Ticket;
 import uk.co.thomasc.steamkit.types.steamid.SteamID;
 import uk.co.thomasc.steamkit.util.util.NetHelpers;
 
-import com.google.protobuf.ByteString;
-
 /**
  * This callback is returned in response to an attempt to log on to the Steam3
  * network through {@link SteamUser}.
@@ -95,31 +93,30 @@ public final class LoggedOnCallback extends CallbackMsg {
 	 * {@link LogOnDetails#requestSteam2Ticket} has been set to true.
 	 */
 	@Getter
-	private Steam2Ticket steam2Ticket;
+	private Steam2Ticket steam2Ticket = null;
 
 	public LoggedOnCallback(CMsgClientLogonResponse resp) {
-		result = EResult.f(resp.getEresult());
-		extendedResult = EResult.f(resp.getEresultExtended());
+		result = EResult.f(resp.eresult);
+		extendedResult = EResult.f(resp.eresultExtended);
 
-		outOfGameSecsPerHeartbeat = resp.getOutOfGameHeartbeatSeconds();
-		inGameSecsPerHeartbeat = resp.getInGameHeartbeatSeconds();
+		outOfGameSecsPerHeartbeat = resp.outOfGameHeartbeatSeconds;
+		inGameSecsPerHeartbeat = resp.inGameHeartbeatSeconds;
 
-		publicIP = NetHelpers.getIPAddress(resp.getPublicIp());
+		publicIP = NetHelpers.getIPAddress(resp.publicIp);
 
-		serverTime = new Date(resp.getRtime32ServerTime());
+		serverTime = new Date(resp.rtime32ServerTime);
 
-		accountFlags = EAccountFlags.f(resp.getAccountFlags());
+		accountFlags = EAccountFlags.f(resp.accountFlags);
 
-		clientSteamID = new SteamID(resp.getClientSuppliedSteamid());
+		clientSteamID = new SteamID(resp.clientSuppliedSteamid);
 
-		emailDomain = resp.getEmailDomain();
+		emailDomain = resp.emailDomain;
 
-		cellId = resp.getCellId();
+		cellId = resp.cellId;
 		
-		webAPIUserNonce = resp.getWebapiAuthenticateUserNonce();
+		webAPIUserNonce = resp.webapiAuthenticateUserNonce;
 
-		if (resp.getSteam2Ticket() != ByteString.EMPTY) {
-			steam2Ticket = new Steam2Ticket(resp.getSteam2Ticket().toByteArray());
-		}
+		if(resp.steam2Ticket.length > 0)
+			steam2Ticket = new Steam2Ticket(resp.steam2Ticket);
 	}
 }

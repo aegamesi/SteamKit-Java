@@ -17,6 +17,6 @@ public final class SessionTokenCallback extends CallbackMsg {
 	private final long sessionToken;
 
 	public SessionTokenCallback(CMsgClientSessionToken msg) {
-		sessionToken = msg.getToken();
+		sessionToken = msg.token;
 	}
 }

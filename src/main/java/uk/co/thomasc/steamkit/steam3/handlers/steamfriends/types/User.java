@@ -9,7 +9,12 @@ public final class User extends Account {
 
 	public EPersonaState personaState = EPersonaState.Offline;
 
+	public String nickname = null;
+
 	public int gameAppId;
 	public GameID gameId = new GameID();
 	public String gameName;
+
+	public int lastLogoff;
+	public int lastLogon;
 }

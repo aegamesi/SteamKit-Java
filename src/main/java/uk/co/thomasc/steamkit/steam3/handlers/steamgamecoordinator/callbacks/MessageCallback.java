@@ -4,7 +4,7 @@ import lombok.Getter;
 import uk.co.thomasc.steamkit.base.PacketClientGCMsg;
 import uk.co.thomasc.steamkit.base.PacketClientGCMsgProtobuf;
 import uk.co.thomasc.steamkit.base.gc.IPacketGCMsg;
-import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgGCClient;
+import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver2.CMsgGCClient;
 import uk.co.thomasc.steamkit.steam3.steamclient.callbackmgr.CallbackMsg;
 import uk.co.thomasc.steamkit.util.util.MsgUtil;
 
@@ -47,13 +47,13 @@ public class MessageCallback extends CallbackMsg {
 	private final IPacketGCMsg message;
 
 	public MessageCallback(CMsgGCClient gcMsg) {
-		eMsg = gcMsg.getMsgtype();
-		appId = gcMsg.getAppid();
+		eMsg = gcMsg.msgtype;
+		appId = gcMsg.appid;
 
 		// we are knowingly using this obsolete property
 		//this.Payload = gcMsg.payload;
 
-		message = MessageCallback.getPacketGCMsg(gcMsg.getMsgtype(), gcMsg.getPayload().toByteArray());
+		message = MessageCallback.getPacketGCMsg(gcMsg.msgtype, gcMsg.payload);
 	}
 
 	static IPacketGCMsg getPacketGCMsg(int eMsg, byte[] data) {

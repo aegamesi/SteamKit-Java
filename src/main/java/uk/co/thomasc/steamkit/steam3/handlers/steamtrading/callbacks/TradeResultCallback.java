@@ -1,7 +1,7 @@
 package uk.co.thomasc.steamkit.steam3.handlers.steamtrading.callbacks;
 
 import lombok.Getter;
-import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgTrading_InitiateTradeResponse;
+import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver2.CMsgTrading_InitiateTradeResponse;
 import uk.co.thomasc.steamkit.base.generated.steamlanguage.EEconTradeResponse;
 import uk.co.thomasc.steamkit.steam3.steamclient.callbackmgr.CallbackMsg;
 import uk.co.thomasc.steamkit.types.steamid.SteamID;
@@ -30,10 +30,10 @@ public final class TradeResultCallback extends CallbackMsg {
 	private final SteamID otherClient;
 
 	public TradeResultCallback(CMsgTrading_InitiateTradeResponse msg) {
-		tradeID = msg.getTradeRequestId();
+		tradeID = msg.tradeRequestId;
 
-		response = EEconTradeResponse.f(msg.getResponse());
+		response = EEconTradeResponse.f(msg.response);
 
-		otherClient = new SteamID(msg.getOtherSteamid());
+		otherClient = new SteamID(msg.otherSteamid);
 	}
 }

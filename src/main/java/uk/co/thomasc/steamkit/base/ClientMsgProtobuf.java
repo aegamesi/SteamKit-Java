@@ -1,12 +1,13 @@
 package uk.co.thomasc.steamkit.base;
 
+import com.google.protobuf.nano.CodedInputByteBufferNano;
+import com.google.protobuf.nano.MessageNano;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
 
 import lombok.Getter;
-import uk.co.thomasc.steamkit.base.generated.SteammessagesBase.CMsgProtoBufHeader.Builder;
+import uk.co.thomasc.steamkit.base.generated.SteammessagesBase.CMsgProtoBufHeader;
 import uk.co.thomasc.steamkit.base.generated.steamlanguage.EMsg;
 import uk.co.thomasc.steamkit.base.generated.steamlanguageinternal.MsgHdrProtoBuf;
 import uk.co.thomasc.steamkit.types.JobID;
@@ -15,17 +16,13 @@ import uk.co.thomasc.steamkit.util.logging.Debug;
 import uk.co.thomasc.steamkit.util.stream.BinaryReader;
 import uk.co.thomasc.steamkit.util.stream.BinaryWriter;
 
-import com.google.protobuf.AbstractMessage;
-import com.google.protobuf.GeneratedMessage;
-
 /**
  * Represents a protobuf backed client message.
  * 
  * @param <U>
  *            The builder for T
  */
-public final class ClientMsgProtobuf<U extends GeneratedMessage.Builder<U>> extends MsgBase<MsgHdrProtoBuf> {
-
+public final class ClientMsgProtobuf<U extends MessageNano> extends MsgBase<MsgHdrProtoBuf> {
 	/**
 	 * Client messages of this type are always protobuf backed.
 	 */
@@ -47,7 +44,7 @@ public final class ClientMsgProtobuf<U extends GeneratedMessage.Builder<U>> exte
 	 */
 	@Override
 	public int getSessionID() {
-		return getProtoHeader().getClientSessionid();
+		return getProtoHeader().clientSessionid;
 	}
 
 	/**
@@ -55,7 +52,7 @@ public final class ClientMsgProtobuf<U extends GeneratedMessage.Builder<U>> exte
 	 */
 	@Override
 	public void setSessionID(int sessionID) {
-		getProtoHeader().setClientSessionid(sessionID);
+		getProtoHeader().clientSessionid = sessionID;
 	}
 
 	/**
@@ -63,7 +60,7 @@ public final class ClientMsgProtobuf<U extends GeneratedMessage.Builder<U>> exte
 	 */
 	@Override
 	public SteamID getSteamID() {
-		return new SteamID(getProtoHeader().getSteamid());
+		return new SteamID(getProtoHeader().steamid);
 	}
 
 	/**
@@ -71,7 +68,7 @@ public final class ClientMsgProtobuf<U extends GeneratedMessage.Builder<U>> exte
 	 */
 	@Override
 	public void setSteamID(SteamID steamID) {
-		getProtoHeader().setSteamid(steamID.convertToLong());
+		getProtoHeader().steamid = steamID.convertToLong();
 	}
 
 	/**
@@ -79,7 +76,7 @@ public final class ClientMsgProtobuf<U extends GeneratedMessage.Builder<U>> exte
 	 */
 	@Override
 	public JobID getTargetJobID() {
-		return new JobID(getProtoHeader().getJobidTarget());
+		return new JobID(getProtoHeader().jobidTarget);
 	}
 
 	/**
@@ -87,7 +84,7 @@ public final class ClientMsgProtobuf<U extends GeneratedMessage.Builder<U>> exte
 	 */
 	@Override
 	public void setTargetJobID(JobID JobID) {
-		getProtoHeader().setJobidTarget(JobID.getValue());
+		getProtoHeader().jobidTarget = JobID.getValue();
 	}
 
 	/**
@@ -95,7 +92,7 @@ public final class ClientMsgProtobuf<U extends GeneratedMessage.Builder<U>> exte
 	 */
 	@Override
 	public JobID getSourceJobID() {
-		return new JobID(getProtoHeader().getJobidSource());
+		return new JobID(getProtoHeader().jobidSource);
 	}
 
 	/**
@@ -103,13 +100,13 @@ public final class ClientMsgProtobuf<U extends GeneratedMessage.Builder<U>> exte
 	 */
 	@Override
 	public void setSourceJobID(JobID JobID) {
-		getProtoHeader().setJobidSource(JobID.getValue());
+		getProtoHeader().jobidSource = JobID.getValue();
 	}
 
 	/**
 	 * Shorthand accessor for the protobuf header.
 	 */
-	public Builder getProtoHeader() {
+	public CMsgProtoBufHeader getProtoHeader() {
 		return getHeader().proto;
 	}
 
@@ -119,9 +116,9 @@ public final class ClientMsgProtobuf<U extends GeneratedMessage.Builder<U>> exte
 	@Getter
 	private U body;
 
-	private Class<? extends AbstractMessage> clazz;
+	private Class<? extends MessageNano> clazz;
 
-	public ClientMsgProtobuf(Class<? extends AbstractMessage> clazz, EMsg eMsg) {
+	public ClientMsgProtobuf(Class<? extends MessageNano> clazz, EMsg eMsg) {
 		this(clazz, eMsg, 64);
 	}
 
@@ -137,14 +134,13 @@ public final class ClientMsgProtobuf<U extends GeneratedMessage.Builder<U>> exte
 	 *            The number of bytes to initialize the payload capacity to.
 	 */
 	@SuppressWarnings("unchecked")
-	public ClientMsgProtobuf(Class<? extends AbstractMessage> clazz, EMsg eMsg, int payloadReserve) {
+	public ClientMsgProtobuf(Class<? extends MessageNano> clazz, EMsg eMsg, int payloadReserve) {
 		super(MsgHdrProtoBuf.class, payloadReserve);
 
 		this.clazz = clazz;
 
 		try {
-			final Method m = clazz.getMethod("newBuilder");
-			body = (U) m.invoke(null);
+			body = (U) clazz.newInstance();
 		} catch (Exception e) {
 			uk.co.thomasc.steamkit.util.logging.DebugLog.writeLine("NEW_EX", "Exception: %s", e);
 		}
@@ -153,7 +149,7 @@ public final class ClientMsgProtobuf<U extends GeneratedMessage.Builder<U>> exte
 		getHeader().msg = eMsg;
 	}
 
-	public ClientMsgProtobuf(Class<? extends AbstractMessage> clazz, EMsg eMsg, MsgBase<MsgHdrProtoBuf> msg) {
+	public ClientMsgProtobuf(Class<? extends MessageNano> clazz, EMsg eMsg, MsgBase<MsgHdrProtoBuf> msg) {
 		this(clazz, eMsg, msg, 64);
 	}
 
@@ -168,10 +164,10 @@ public final class ClientMsgProtobuf<U extends GeneratedMessage.Builder<U>> exte
 	 * @param payloadReserve
 	 *            The number of bytes to initialize the payload capacity to.
 	 */
-	public ClientMsgProtobuf(Class<? extends AbstractMessage> clazz, EMsg eMsg, MsgBase<MsgHdrProtoBuf> msg, int payloadReserve) {
+	public ClientMsgProtobuf(Class<? extends MessageNano> clazz, EMsg eMsg, MsgBase<MsgHdrProtoBuf> msg, int payloadReserve) {
 		this(clazz, eMsg, payloadReserve);
 		// our target is where the message came from
-		getHeader().proto.setJobidTarget(msg.getHeader().proto.getJobidSource());
+		getHeader().proto.jobidTarget = msg.getHeader().proto.jobidSource;
 	}
 
 	/**
@@ -181,7 +177,7 @@ public final class ClientMsgProtobuf<U extends GeneratedMessage.Builder<U>> exte
 	 * @param msg
 	 *            The packet message to build this client message from.
 	 */
-	public ClientMsgProtobuf(Class<? extends AbstractMessage> clazz, IPacketMsg msg) {
+	public ClientMsgProtobuf(Class<? extends MessageNano> clazz, IPacketMsg msg) {
 		this(clazz, msg.getMsgType());
 
 		Debug.Assert(msg.isProto(), "ClientMsgProtobuf used for non-proto message!");
@@ -203,7 +199,7 @@ public final class ClientMsgProtobuf<U extends GeneratedMessage.Builder<U>> exte
 		final BinaryWriter ms = new BinaryWriter();
 
 		getHeader().serialize(ms);
-		ms.write(body.build().toByteArray());
+		ms.write(MessageNano.toByteArray(body));
 		ms.write(getOutputStream().toByteArray());
 
 		return ms.toByteArray();
@@ -219,19 +215,22 @@ public final class ClientMsgProtobuf<U extends GeneratedMessage.Builder<U>> exte
 	public void deSerialize(byte[] data) throws IOException {
 		final BinaryReader is = new BinaryReader(data);
 		getHeader().deSerialize(is);
+
 		try {
-			final Method m = clazz.getMethod("newBuilder");
-			body = (U) m.invoke(null);
+			body = (U) clazz.newInstance();
 		} catch (Exception e) {
 			uk.co.thomasc.steamkit.util.logging.DebugLog.writeLine("NEW_EX", "Exception: %s", e);
 		}
-		body.mergeFrom(is.getStream());
+
+		final int startPos = is.getPosition();
+		CodedInputByteBufferNano byteBuffer = CodedInputByteBufferNano.newInstance(data, startPos, is.getRemaining());
+		body.mergeFrom(byteBuffer); /*** XXX TODO CAUSES EXCEPTION ***/
 
 		// the rest of the data is the payload
-		final int payloadOffset = is.getPosition();
-		final int payloadLen = is.getRemaining();
+		final int payloadOffset = byteBuffer.getPosition() + startPos;
+		final int payloadLen = data.length - payloadOffset;
 
-		setReader(new BinaryReader(new ByteArrayInputStream(copyOfRange(data, payloadOffset, payloadOffset + payloadLen))));
+		setPayload(new BinaryReader(new ByteArrayInputStream(copyOfRange(data, payloadOffset, payloadOffset + payloadLen))));
 	}
 	
 	public static byte[] copyOfRange(byte[] from, int start, int end){

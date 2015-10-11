@@ -29,6 +29,25 @@ public class IPEndPoint {
 		this.port = port;
 	}
 
+	public static IPEndPoint fromString(String ipAddressAndPort) {
+		if(ipAddressAndPort == null)
+			return null;
+
+		String[] components = ipAddressAndPort.split(":");
+
+		if(components.length != 2)
+			return null;
+
+		try {
+			String ipAddress = components[0];
+			int port = Integer.parseInt(components[1]);
+
+			return new IPEndPoint(ipAddress, port);
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
+
 	@Override
 	public String toString() {
 		final StringBuffer result = new StringBuffer();

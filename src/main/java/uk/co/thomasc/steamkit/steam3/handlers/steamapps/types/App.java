@@ -41,17 +41,17 @@ public final class App {
 
 	public App(CMsgClientAppInfoResponse.App app, AppInfoStatus status) {
 		this.status = status;
-		appID = app.getAppId();
-		changeNumber = app.getChangeNumber();
+		appID = app.appId;
+		changeNumber = app.changeNumber;
 
-		for (final Section section : app.getSectionsList()) {
+		for (final Section section : app.sections) {
 			final KeyValue kv = new KeyValue();
-			final BinaryReader cs = new BinaryReader(section.getSectionKv().toByteArray());
+			final BinaryReader cs = new BinaryReader(section.sectionKv);
 
 			try {
 				kv.readAsBinary(cs);
 
-				sections.put(EAppInfoSection.f(section.getSectionId()), kv);
+				sections.put(EAppInfoSection.f(section.sectionId), kv);
 			} catch (final IOException e) {
 				uk.co.thomasc.steamkit.util.logging.DebugLog.writeLine("NEW_EX", "Exception: %s", e);
 			}

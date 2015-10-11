@@ -10,15 +10,7 @@ import uk.co.thomasc.steamkit.util.crypto.CryptoHelper;
 public class Utils {
 
 	public static EOSType getOSType() {
-		final String os = System.getProperty("os.name");
-		if (os.startsWith("Win")) {
-			return EOSType.WinUnknown;
-		} else if (os.startsWith("Mac")) {
-			return EOSType.MacOSUnknown;
-		} else if (os.indexOf("nix") >= 0) {
-			return EOSType.LinuxUnknown;
-		}
-		return EOSType.Unknown;
+		return EOSType.Win7;
 	}
 
 	private static byte[] generateMachineID() {

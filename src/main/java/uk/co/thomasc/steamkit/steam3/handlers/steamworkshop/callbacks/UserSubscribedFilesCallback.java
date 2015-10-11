@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
-import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgClientUCMEnumerateUserSubscribedFilesResponse;
-import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgClientUCMEnumerateUserSubscribedFilesResponse.PublishedFileId;
+import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver2.CMsgClientUCMEnumerateUserSubscribedFilesResponse;
+import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver2.CMsgClientUCMEnumerateUserSubscribedFilesResponse.PublishedFileId;
 import uk.co.thomasc.steamkit.base.generated.steamlanguage.EResult;
 import uk.co.thomasc.steamkit.steam3.handlers.steamworkshop.SteamWorkshop;
 import uk.co.thomasc.steamkit.steam3.handlers.steamworkshop.types.EnumerationUserDetails;
@@ -36,12 +36,12 @@ public final class UserSubscribedFilesCallback extends CallbackMsg {
 	private final int totalResults;
 
 	public UserSubscribedFilesCallback(CMsgClientUCMEnumerateUserSubscribedFilesResponse msg) {
-		result = EResult.f(msg.getEresult());
+		result = EResult.f(msg.eresult);
 
-		for (final PublishedFileId f : msg.getSubscribedFilesList()) {
+		for (final PublishedFileId f : msg.subscribedFiles) {
 			files.add(new FileSubscribed(f));
 		}
 
-		totalResults = msg.getTotalResults();
+		totalResults = msg.totalResults;
 	}
 }

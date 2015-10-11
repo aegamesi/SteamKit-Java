@@ -30,8 +30,8 @@ public final class AppOwnershipTicketCallback extends CallbackMsg {
 	private final byte[] ticket;
 
 	public AppOwnershipTicketCallback(CMsgClientGetAppOwnershipTicketResponse msg) {
-		result = EResult.f(msg.getEresult());
-		appID = msg.getAppId();
-		ticket = msg.getTicket().toByteArray();
+		result = EResult.f(msg.eresult);
+		appID = msg.appId;
+		ticket = msg.ticket;
 	}
 }

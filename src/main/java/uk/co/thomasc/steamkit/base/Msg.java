@@ -2,7 +2,6 @@ package uk.co.thomasc.steamkit.base;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
 import lombok.Getter;
 import uk.co.thomasc.steamkit.base.generated.steamlanguage.EMsg;
@@ -188,7 +187,7 @@ public final class Msg<T extends ISteamSerializableMessage> extends MsgBase<MsgH
 		final int payloadOffset = ms.getPosition();
 		final int payloadLen = ms.getRemaining();
 
-		setReader(new BinaryReader(new ByteArrayInputStream(copyOfRange(data, payloadOffset, payloadOffset + payloadLen))));
+		setPayload(new BinaryReader(new ByteArrayInputStream(copyOfRange(data, payloadOffset, payloadOffset + payloadLen))));
 	}
 
 	public static byte[] copyOfRange(byte[] from, int start, int end){

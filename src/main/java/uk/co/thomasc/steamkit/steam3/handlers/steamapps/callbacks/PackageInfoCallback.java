@@ -27,14 +27,14 @@ public final class PackageInfoCallback extends CallbackMsg {
 	public int packagesPending;
 
 	public PackageInfoCallback(CMsgClientPackageInfoResponse msg) {
-		for (final CMsgClientPackageInfoResponse.Package pkg : msg.getPackagesList()) {
+		for (final CMsgClientPackageInfoResponse.Package pkg : msg.packages) {
 			packages.add(new Package(pkg, PackageStatus.OK));
 		}
 
-		for (final Integer pkg : msg.getPackagesUnknownList()) {
+		for (final Integer pkg : msg.packagesUnknown) {
 			packages.add(new Package(pkg, PackageStatus.Unknown));
 		}
 
-		packagesPending = msg.getPackagesPending();
+		packagesPending = msg.packagesPending;
 	}
 }

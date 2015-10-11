@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
-import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgCREEnumeratePublishedFilesResponse;
-import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver.CMsgCREEnumeratePublishedFilesResponse.PublishedFileId;
+import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver2.CMsgCREEnumeratePublishedFilesResponse;
+import uk.co.thomasc.steamkit.base.generated.SteammessagesClientserver2.CMsgCREEnumeratePublishedFilesResponse.PublishedFileId;
 import uk.co.thomasc.steamkit.base.generated.steamlanguage.EResult;
 import uk.co.thomasc.steamkit.steam3.handlers.steamworkshop.SteamWorkshop;
 import uk.co.thomasc.steamkit.steam3.handlers.steamworkshop.types.EnumerationDetails;
@@ -36,12 +36,12 @@ public final class PublishedFilesCallback extends CallbackMsg {
 	private final int totalResults;
 
 	public PublishedFilesCallback(CMsgCREEnumeratePublishedFilesResponse msg) {
-		result = EResult.f(msg.getEresult());
+		result = EResult.f(msg.eresult);
 
-		for (final PublishedFileId file : msg.getPublishedFilesList()) {
+		for (final PublishedFileId file : msg.publishedFiles) {
 			files.add(new FileInfo(file));
 		}
 
-		totalResults = msg.getTotalResults();
+		totalResults = msg.totalResults;
 	}
 }
