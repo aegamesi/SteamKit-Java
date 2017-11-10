@@ -9,29 +9,29 @@ import uk.co.thomasc.steamkit.util.stream.BinaryWriter;
 
 public class MsgChannelEncryptResponse implements ISteamSerializableMessage {
 
-	@Override
-	public EMsg getEMsg() {
-		return EMsg.ChannelEncryptResponse;
-	}
+    @Override
+    public EMsg getEMsg() {
+        return EMsg.ChannelEncryptResponse;
+    }
 
-	// Static size: 4
-	public int protocolVersion = MsgChannelEncryptRequest.PROTOCOL_VERSION;
-	// Static size: 4
-	public int keySize = 128;
+    // Static size: 4
+    public int protocolVersion = MsgChannelEncryptRequest.PROTOCOL_VERSION;
+    // Static size: 4
+    public int keySize = 128;
 
-	public MsgChannelEncryptResponse() {
+    public MsgChannelEncryptResponse() {
 
-	}
+    }
 
-	@Override
-	public void serialize(BinaryWriter stream) throws IOException {
-		stream.write(protocolVersion);
-		stream.write(keySize);
-	}
+    @Override
+    public void serialize(BinaryWriter stream) throws IOException {
+        stream.write(protocolVersion);
+        stream.write(keySize);
+    }
 
-	@Override
-	public void deSerialize(BinaryReader stream) throws IOException {
-		protocolVersion = stream.readInt();
-		keySize = stream.readInt();
-	}
+    @Override
+    public void deSerialize(BinaryReader stream) throws IOException {
+        protocolVersion = stream.readInt();
+        keySize = stream.readInt();
+    }
 }

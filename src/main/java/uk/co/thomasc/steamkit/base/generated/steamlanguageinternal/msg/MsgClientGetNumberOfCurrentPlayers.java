@@ -10,33 +10,33 @@ import uk.co.thomasc.steamkit.util.stream.BinaryWriter;
 
 public class MsgClientGetNumberOfCurrentPlayers implements ISteamSerializableMessage {
 
-	@Override
-	public EMsg getEMsg() {
-		return EMsg.ClientGetNumberOfCurrentPlayers;
-	}
+    @Override
+    public EMsg getEMsg() {
+        return EMsg.ClientGetNumberOfCurrentPlayers;
+    }
 
-	// Static size: 8
-	private long gameID = 0;
+    // Static size: 8
+    private long gameID = 0;
 
-	public GameID getGameId() {
-		return new GameID(gameID);
-	}
+    public GameID getGameId() {
+        return new GameID(gameID);
+    }
 
-	public void setGameId(GameID GameID) {
-		gameID = GameID.toLong();
-	}
+    public void setGameId(GameID GameID) {
+        gameID = GameID.toLong();
+    }
 
-	public MsgClientGetNumberOfCurrentPlayers() {
+    public MsgClientGetNumberOfCurrentPlayers() {
 
-	}
+    }
 
-	@Override
-	public void serialize(BinaryWriter stream) throws IOException {
-		stream.write(gameID);
-	}
+    @Override
+    public void serialize(BinaryWriter stream) throws IOException {
+        stream.write(gameID);
+    }
 
-	@Override
-	public void deSerialize(BinaryReader stream) throws IOException {
-		gameID = stream.readLong();
-	}
+    @Override
+    public void deSerialize(BinaryReader stream) throws IOException {
+        gameID = stream.readLong();
+    }
 }

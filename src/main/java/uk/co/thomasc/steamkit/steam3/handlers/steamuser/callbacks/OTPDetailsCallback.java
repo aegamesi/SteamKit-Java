@@ -7,12 +7,12 @@ import uk.co.thomasc.steamkit.steam3.handlers.steamuser.types.OTPDetails;
  */
 public class OTPDetailsCallback extends OTPDetails {
 
-	public byte[] getSharedSecret() {
-		return sharedSecret;
-	}
+    public byte[] getSharedSecret() {
+        return sharedSecret;
+    }
 
-	public int getTimeDrift() {
-		return timeDrift;
-	}
+    public int getTimeDrift() {
+        return timeDrift;
+    }
 
 }

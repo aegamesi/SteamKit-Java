@@ -13,163 +13,163 @@ import uk.co.thomasc.steamkit.util.stream.BinaryWriter;
 
 public class MsgClientCreateChat implements ISteamSerializableMessage {
 
-	@Override
-	public EMsg getEMsg() {
-		return EMsg.ClientCreateChat;
-	}
+    @Override
+    public EMsg getEMsg() {
+        return EMsg.ClientCreateChat;
+    }
 
-	// chatRoomType
-	private int chatRoomType = 0;
+    // chatRoomType
+    private int chatRoomType = 0;
 
-	public EChatRoomType getChatRoomType() {
-		return EChatRoomType.f(chatRoomType);
-	}
+    public EChatRoomType getChatRoomType() {
+        return EChatRoomType.f(chatRoomType);
+    }
 
-	public void setChatRoomType(EChatRoomType chatRoomType) {
-		this.chatRoomType = chatRoomType.v();
-	}
+    public void setChatRoomType(EChatRoomType chatRoomType) {
+        this.chatRoomType = chatRoomType.v();
+    }
 
-	// gameId
-	private long gameID = 0;
+    // gameId
+    private long gameID = 0;
 
-	public GameID getGameId() {
-		return new GameID(gameID);
-	}
+    public GameID getGameId() {
+        return new GameID(gameID);
+    }
 
-	public void setGameId(GameID GameID) {
-		gameID = GameID.toLong();
-	}
+    public void setGameId(GameID GameID) {
+        gameID = GameID.toLong();
+    }
 
-	// steamIdClan
-	private long steamIdClan = 0;
+    // steamIdClan
+    private long steamIdClan = 0;
 
-	public SteamID getSteamIdClan() {
-		return new SteamID(steamIdClan);
-	}
+    public SteamID getSteamIdClan() {
+        return new SteamID(steamIdClan);
+    }
 
-	public void setSteamIdClan(SteamID steamId) {
-		steamIdClan = steamId.convertToLong();
-	}
+    public void setSteamIdClan(SteamID steamId) {
+        steamIdClan = steamId.convertToLong();
+    }
 
-	// permissionOfficer
-	private int permissionOfficer = 0;
+    // permissionOfficer
+    private int permissionOfficer = 0;
 
-	public EChatPermission getPermissionOfficer() {
-		return EChatPermission.f(permissionOfficer);
-	}
+    public EChatPermission getPermissionOfficer() {
+        return EChatPermission.f(permissionOfficer);
+    }
 
-	public void setPermissionOfficer(EChatPermission permissionOfficer) {
-		this.permissionOfficer = permissionOfficer.v();
-	}
+    public void setPermissionOfficer(EChatPermission permissionOfficer) {
+        this.permissionOfficer = permissionOfficer.v();
+    }
 
-	// permissionMember
-	private int permissionMember = 0;
+    // permissionMember
+    private int permissionMember = 0;
 
-	public EChatPermission getPermissionMember() {
-		return EChatPermission.f(permissionMember);
-	}
+    public EChatPermission getPermissionMember() {
+        return EChatPermission.f(permissionMember);
+    }
 
-	public void setPermissionMember(EChatPermission permissionMember) {
-		this.permissionMember = permissionMember.v();
-	}
+    public void setPermissionMember(EChatPermission permissionMember) {
+        this.permissionMember = permissionMember.v();
+    }
 
-	// permissionAll
-	private int permissionAll = 0;
+    // permissionAll
+    private int permissionAll = 0;
 
-	public EChatPermission getPermissionAll() {
-		return EChatPermission.f(permissionAll);
-	}
+    public EChatPermission getPermissionAll() {
+        return EChatPermission.f(permissionAll);
+    }
 
-	public void setPermissionAll(EChatPermission permissionAll) {
-		this.permissionAll = permissionAll.v();
-	}
+    public void setPermissionAll(EChatPermission permissionAll) {
+        this.permissionAll = permissionAll.v();
+    }
 
-	// membersMax
-	private long membersMax = 0;
+    // membersMax
+    private long membersMax = 0;
 
-	public long getMembersMax() {
-		return membersMax;
-	}
+    public long getMembersMax() {
+        return membersMax;
+    }
 
-	public void setMembersMax(long membersMax) {
-		this.membersMax = membersMax;
-	}
+    public void setMembersMax(long membersMax) {
+        this.membersMax = membersMax;
+    }
 
-	// chatFlags
-	private byte chatFlags = 0;
+    // chatFlags
+    private byte chatFlags = 0;
 
-	public byte getChatFlags() {
-		return chatFlags;
-	}
+    public byte getChatFlags() {
+        return chatFlags;
+    }
 
-	public void setChatFlags(byte flags) {
-		this.chatFlags = flags;
-	}
+    public void setChatFlags(byte flags) {
+        this.chatFlags = flags;
+    }
 
-	// steamIdFriendChat
-	private long steamIdFriendChat = 0;
+    // steamIdFriendChat
+    private long steamIdFriendChat = 0;
 
-	public SteamID getSteamIdFriendChat() {
-		return new SteamID(steamIdFriendChat);
-	}
+    public SteamID getSteamIdFriendChat() {
+        return new SteamID(steamIdFriendChat);
+    }
 
-	public void setSteamIdFriendChat(SteamID steamId) {
-		steamIdFriendChat = steamId.convertToLong();
-	}
+    public void setSteamIdFriendChat(SteamID steamId) {
+        steamIdFriendChat = steamId.convertToLong();
+    }
 
-	// steamIdInvited
-	private long steamIdInvited = 0;
+    // steamIdInvited
+    private long steamIdInvited = 0;
 
-	public SteamID getSteamIdInvited() {
-		return new SteamID(steamIdInvited);
-	}
+    public SteamID getSteamIdInvited() {
+        return new SteamID(steamIdInvited);
+    }
 
-	public void setSteamIdInvited(SteamID steamId) {
-		steamIdInvited = steamId.convertToLong();
-	}
-	
-	//
-	public MsgClientCreateChat() {
+    public void setSteamIdInvited(SteamID steamId) {
+        steamIdInvited = steamId.convertToLong();
+    }
 
-	}
+    //
+    public MsgClientCreateChat() {
 
-	@Override
-	public void serialize(BinaryWriter stream) throws IOException {
-		stream.write(chatRoomType);
+    }
 
-		stream.write(gameID);
+    @Override
+    public void serialize(BinaryWriter stream) throws IOException {
+        stream.write(chatRoomType);
 
-		stream.write(steamIdClan);
+        stream.write(gameID);
 
-		stream.write(permissionOfficer);
-		stream.write(permissionMember);
-		stream.write(permissionAll);
+        stream.write(steamIdClan);
 
-		stream.write(membersMax);
+        stream.write(permissionOfficer);
+        stream.write(permissionMember);
+        stream.write(permissionAll);
 
-		stream.write(chatFlags);
+        stream.write(membersMax);
 
-		stream.write(steamIdFriendChat);
-		stream.write(steamIdInvited);
-	}
+        stream.write(chatFlags);
 
-	@Override
-	public void deSerialize(BinaryReader stream) throws IOException {
-		chatRoomType = stream.readInt();
+        stream.write(steamIdFriendChat);
+        stream.write(steamIdInvited);
+    }
 
-		gameID = stream.readLong();
+    @Override
+    public void deSerialize(BinaryReader stream) throws IOException {
+        chatRoomType = stream.readInt();
 
-		steamIdClan = stream.readLong();
+        gameID = stream.readLong();
 
-		permissionOfficer = stream.readInt();
-		permissionMember = stream.readInt();
-		permissionAll = stream.readInt();
+        steamIdClan = stream.readLong();
 
-		membersMax = stream.readLong();
+        permissionOfficer = stream.readInt();
+        permissionMember = stream.readInt();
+        permissionAll = stream.readInt();
 
-		chatFlags = stream.readByte();
+        membersMax = stream.readLong();
 
-		steamIdFriendChat = stream.readLong();
-		steamIdInvited = stream.readLong();
-	}
+        chatFlags = stream.readByte();
+
+        steamIdFriendChat = stream.readLong();
+        steamIdInvited = stream.readLong();
+    }
 }

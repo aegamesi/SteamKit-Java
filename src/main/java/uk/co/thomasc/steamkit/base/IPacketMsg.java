@@ -9,38 +9,38 @@ import uk.co.thomasc.steamkit.base.generated.steamlanguage.EMsg;
  * interface is also immutable, and the underlying data cannot be modified.
  */
 public interface IPacketMsg {
-	/**
-	 * Gets a value indicating whether this packet message is protobuf backed.
-	 * 
-	 * @return true if this instance is protobuf backed; otherwise, false
-	 */
-	boolean isProto();
+    /**
+     * Gets a value indicating whether this packet message is protobuf backed.
+     *
+     * @return true if this instance is protobuf backed; otherwise, false
+     */
+    boolean isProto();
 
-	/**
-	 * Gets the network message type of this packet message.
-	 * 
-	 * @return The message type.
-	 */
-	EMsg getMsgType();
+    /**
+     * Gets the network message type of this packet message.
+     *
+     * @return The message type.
+     */
+    EMsg getMsgType();
 
-	/**
-	 * Gets the target job id for this packet message.
-	 * 
-	 * @return The target job id.
-	 */
-	long getTargetJobID();
+    /**
+     * Gets the target job id for this packet message.
+     *
+     * @return The target job id.
+     */
+    long getTargetJobID();
 
-	/**
-	 * Gets the source job id for this packet message.
-	 * 
-	 * @return The source job id.
-	 */
-	long getSourceJobID();
+    /**
+     * Gets the source job id for this packet message.
+     *
+     * @return The source job id.
+     */
+    long getSourceJobID();
 
-	/**
-	 * Gets the underlying data that represents this client message.
-	 * 
-	 * @return The data.
-	 */
-	byte[] getData();
+    /**
+     * Gets the underlying data that represents this client message.
+     *
+     * @return The data.
+     */
+    byte[] getData();
 }

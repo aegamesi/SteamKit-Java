@@ -10,46 +10,46 @@ import uk.co.thomasc.steamkit.util.stream.BinaryWriter;
 
 public class MsgClientJoinChat implements ISteamSerializableMessage {
 
-	@Override
-	public EMsg getEMsg() {
-		return EMsg.ClientJoinChat;
-	}
+    @Override
+    public EMsg getEMsg() {
+        return EMsg.ClientJoinChat;
+    }
 
-	// Static size: 8
-	private long steamIdChat = 0;
+    // Static size: 8
+    private long steamIdChat = 0;
 
-	public SteamID getSteamIdChat() {
-		return new SteamID(steamIdChat);
-	}
+    public SteamID getSteamIdChat() {
+        return new SteamID(steamIdChat);
+    }
 
-	public void setSteamIdChat(SteamID steamId) {
-		steamIdChat = steamId.convertToLong();
-	}
+    public void setSteamIdChat(SteamID steamId) {
+        steamIdChat = steamId.convertToLong();
+    }
 
-	// Static size: 1
-	private byte isVoiceSpeaker = 0;
+    // Static size: 1
+    private byte isVoiceSpeaker = 0;
 
-	public boolean isVoiceSpeaker() {
-		return isVoiceSpeaker == 1;
-	}
+    public boolean isVoiceSpeaker() {
+        return isVoiceSpeaker == 1;
+    }
 
-	public void setIsVoiceSpeaker(boolean value) {
-		isVoiceSpeaker = (byte) (value ? 1 : 0);
-	}
+    public void setIsVoiceSpeaker(boolean value) {
+        isVoiceSpeaker = (byte) (value ? 1 : 0);
+    }
 
-	public MsgClientJoinChat() {
+    public MsgClientJoinChat() {
 
-	}
+    }
 
-	@Override
-	public void serialize(BinaryWriter stream) throws IOException {
-		stream.write(steamIdChat);
-		stream.write(isVoiceSpeaker);
-	}
+    @Override
+    public void serialize(BinaryWriter stream) throws IOException {
+        stream.write(steamIdChat);
+        stream.write(isVoiceSpeaker);
+    }
 
-	@Override
-	public void deSerialize(BinaryReader stream) throws IOException {
-		steamIdChat = stream.readLong();
-		isVoiceSpeaker = stream.readByte();
-	}
+    @Override
+    public void deSerialize(BinaryReader stream) throws IOException {
+        steamIdChat = stream.readLong();
+        isVoiceSpeaker = stream.readByte();
+    }
 }

@@ -15,45 +15,45 @@ import uk.co.thomasc.steamkit.types.JobID;
  * content.
  */
 public final class SteamCloud extends ClientMsgHandler {
-	/**
-	 * Requests details for a specific item of user generated content from the
-	 * Steam servers. Results are returned in a {@link UGCDetailsCallback} from
-	 * a {@link JobCallback}.
-	 * 
-	 * @param ugcId
-	 *            The unique user generated content id.
-	 * @return The Job ID of the request. This can be used to find the
-	 *         appropriate {@link JobCallback}.
-	 */
-	public JobID requestUGCDetails(long ugcId) {
-		final ClientMsgProtobuf<CMsgClientUFSGetUGCDetails> request = new ClientMsgProtobuf<CMsgClientUFSGetUGCDetails>(CMsgClientUFSGetUGCDetails.class, EMsg.ClientUFSGetUGCDetails);
-		request.setSourceJobID(getClient().getNextJobID());
+    /**
+     * Requests details for a specific item of user generated content from the
+     * Steam servers. Results are returned in a {@link UGCDetailsCallback} from
+     * a {@link JobCallback}.
+     *
+     * @param ugcId
+     *            The unique user generated content id.
+     * @return The Job ID of the request. This can be used to find the
+     *         appropriate {@link JobCallback}.
+     */
+    public JobID requestUGCDetails(long ugcId) {
+        final ClientMsgProtobuf<CMsgClientUFSGetUGCDetails> request = new ClientMsgProtobuf<CMsgClientUFSGetUGCDetails>(CMsgClientUFSGetUGCDetails.class, EMsg.ClientUFSGetUGCDetails);
+        request.setSourceJobID(getClient().getNextJobID());
 
-		request.getBody().hcontent = ugcId;
+        request.getBody().hcontent = ugcId;
 
-		getClient().send(request);
+        getClient().send(request);
 
-		return request.getSourceJobID();
-	}
+        return request.getSourceJobID();
+    }
 
-	/**
-	 * Handles a client message. This should not be called directly.
-	 */
-	@Override
-	public void handleMsg(IPacketMsg packetMsg) {
-		switch (packetMsg.getMsgType()) {
-		case ClientUFSGetUGCDetailsResponse:
-			handleUGCDetailsResponse(packetMsg);
-			break;
-		}
-	}
+    /**
+     * Handles a client message. This should not be called directly.
+     */
+    @Override
+    public void handleMsg(IPacketMsg packetMsg) {
+        switch (packetMsg.getMsgType()) {
+        case ClientUFSGetUGCDetailsResponse:
+            handleUGCDetailsResponse(packetMsg);
+            break;
+        }
+    }
 
-	void handleUGCDetailsResponse(IPacketMsg packetMsg) {
-		final ClientMsgProtobuf<CMsgClientUFSGetUGCDetailsResponse> infoResponse = new ClientMsgProtobuf<CMsgClientUFSGetUGCDetailsResponse>(CMsgClientUFSGetUGCDetailsResponse.class, packetMsg);
+    void handleUGCDetailsResponse(IPacketMsg packetMsg) {
+        final ClientMsgProtobuf<CMsgClientUFSGetUGCDetailsResponse> infoResponse = new ClientMsgProtobuf<CMsgClientUFSGetUGCDetailsResponse>(CMsgClientUFSGetUGCDetailsResponse.class, packetMsg);
 
-		final UGCDetailsCallback innerCallback = new UGCDetailsCallback(infoResponse.getBody());
-		final JobCallback<?> callback = new JobCallback<UGCDetailsCallback>(infoResponse.getTargetJobID(), innerCallback);
-		getClient().postCallback(callback);
-	}
+        final UGCDetailsCallback innerCallback = new UGCDetailsCallback(infoResponse.getBody());
+        final JobCallback<?> callback = new JobCallback<UGCDetailsCallback>(infoResponse.getTargetJobID(), innerCallback);
+        getClient().postCallback(callback);
+    }
 
 }

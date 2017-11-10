@@ -6,7 +6,7 @@ import java.util.List;
 import uk.co.thomasc.steamkit.types.steamid.SteamID;
 
 public class Chat {
-	public SteamID steamId;
+    public SteamID steamId;
 
-	public List<ChatMemberInfo> members = new ArrayList<ChatMemberInfo>();
+    public List<ChatMemberInfo> members = new ArrayList<ChatMemberInfo>();
 }

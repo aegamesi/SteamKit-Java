@@ -5,16 +5,16 @@ import uk.co.thomasc.steamkit.base.generated.steamlanguage.EPersonaState;
 import uk.co.thomasc.steamkit.types.gameid.GameID;
 
 public final class User extends Account {
-	public EFriendRelationship relationship = EFriendRelationship.None;
+    public EFriendRelationship relationship = EFriendRelationship.None;
 
-	public EPersonaState personaState = EPersonaState.Offline;
+    public EPersonaState personaState = EPersonaState.Offline;
 
-	public String nickname = null;
+    public String nickname = null;
 
-	public int gameAppId;
-	public GameID gameId = new GameID();
-	public String gameName;
+    public int gameAppId;
+    public GameID gameId = new GameID();
+    public String gameName;
 
-	public int lastLogoff;
-	public int lastLogon;
+    public int lastLogoff;
+    public int lastLogon;
 }

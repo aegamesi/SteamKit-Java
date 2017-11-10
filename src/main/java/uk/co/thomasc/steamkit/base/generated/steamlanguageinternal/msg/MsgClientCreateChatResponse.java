@@ -12,82 +12,82 @@ import uk.co.thomasc.steamkit.util.stream.BinaryWriter;
 
 public class MsgClientCreateChatResponse implements ISteamSerializableMessage {
 
-	@Override
-	public EMsg getEMsg() {
-		return EMsg.ClientCreateChat;
-	}
+    @Override
+    public EMsg getEMsg() {
+        return EMsg.ClientCreateChat;
+    }
 
-	// result
-	private int result = 0;
+    // result
+    private int result = 0;
 
-	public EResult getResult() {
-		return EResult.f(result);
-	}
+    public EResult getResult() {
+        return EResult.f(result);
+    }
 
-	public void setResult(EResult result) {
-		this.result = result.v();
-	}
-
-
-	// steamIdChat
-	private long steamIdChat = 0;
-
-	public SteamID getSteamIdChat() {
-		return new SteamID(steamIdChat);
-	}
-
-	public void setSteamIdChat(SteamID steamId) {
-		steamIdChat = steamId.convertToLong();
-	}
+    public void setResult(EResult result) {
+        this.result = result.v();
+    }
 
 
-	// chatRoomType
-	private int chatRoomType = 0;
+    // steamIdChat
+    private long steamIdChat = 0;
 
-	public EChatRoomType getChatRoomType() {
-		return EChatRoomType.f(chatRoomType);
-	}
+    public SteamID getSteamIdChat() {
+        return new SteamID(steamIdChat);
+    }
 
-	public void setChatRoomType(EChatRoomType chatRoomType) {
-		this.chatRoomType = chatRoomType.v();
-	}
+    public void setSteamIdChat(SteamID steamId) {
+        steamIdChat = steamId.convertToLong();
+    }
 
 
-	// steamIdFriendChat
-	private long steamIdFriendChat = 0;
+    // chatRoomType
+    private int chatRoomType = 0;
 
-	public SteamID getSteamIdFriendChat() {
-		return new SteamID(steamIdFriendChat);
-	}
+    public EChatRoomType getChatRoomType() {
+        return EChatRoomType.f(chatRoomType);
+    }
 
-	public void setSteamIdFriendChat(SteamID steamId) {
-		steamIdFriendChat = steamId.convertToLong();
-	}
+    public void setChatRoomType(EChatRoomType chatRoomType) {
+        this.chatRoomType = chatRoomType.v();
+    }
 
-	//
-	public MsgClientCreateChatResponse() {
 
-	}
+    // steamIdFriendChat
+    private long steamIdFriendChat = 0;
 
-	@Override
-	public void serialize(BinaryWriter stream) throws IOException {
-		stream.write(result);
+    public SteamID getSteamIdFriendChat() {
+        return new SteamID(steamIdFriendChat);
+    }
 
-		stream.write(steamIdChat);
+    public void setSteamIdFriendChat(SteamID steamId) {
+        steamIdFriendChat = steamId.convertToLong();
+    }
 
-		stream.write(chatRoomType);
+    //
+    public MsgClientCreateChatResponse() {
 
-		stream.write(steamIdFriendChat);
-	}
+    }
 
-	@Override
-	public void deSerialize(BinaryReader stream) throws IOException {
-		result = stream.readInt();
+    @Override
+    public void serialize(BinaryWriter stream) throws IOException {
+        stream.write(result);
 
-		steamIdChat = stream.readLong();
+        stream.write(steamIdChat);
 
-		chatRoomType = stream.readInt();
+        stream.write(chatRoomType);
 
-		steamIdFriendChat = stream.readLong();
-	}
+        stream.write(steamIdFriendChat);
+    }
+
+    @Override
+    public void deSerialize(BinaryReader stream) throws IOException {
+        result = stream.readInt();
+
+        steamIdChat = stream.readLong();
+
+        chatRoomType = stream.readInt();
+
+        steamIdFriendChat = stream.readLong();
+    }
 }

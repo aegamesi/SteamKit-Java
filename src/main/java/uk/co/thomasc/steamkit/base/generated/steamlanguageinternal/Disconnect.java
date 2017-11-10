@@ -7,16 +7,16 @@ import uk.co.thomasc.steamkit.util.stream.BinaryWriter;
 
 public class Disconnect implements ISteamSerializable {
 
-	public Disconnect() {
-	}
+    public Disconnect() {
+    }
 
-	@Override
-	public void serialize(BinaryWriter stream) throws IOException {
+    @Override
+    public void serialize(BinaryWriter stream) throws IOException {
 
-	}
+    }
 
-	@Override
-	public void deSerialize(BinaryReader stream) throws IOException {
+    @Override
+    public void deSerialize(BinaryReader stream) throws IOException {
 
-	}
+    }
 }

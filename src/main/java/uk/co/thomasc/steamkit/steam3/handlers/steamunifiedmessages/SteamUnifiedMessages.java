@@ -25,40 +25,40 @@ import uk.co.thomasc.steamkit.types.gameid.GameID;
  * This handler handles Steam unified messages
  */
 public final class SteamUnifiedMessages extends ClientMsgHandler {
-	/**
-	 * Sends a unified message
-	 */
-	public void sendUnifiedMessage(String methodName, MessageNano proto, boolean notification) {
-		final ClientMsgProtobuf<CMsgClientServiceMethod> msg = new ClientMsgProtobuf<>(CMsgClientServiceMethod.class, EMsg.ClientServiceMethod);
-		msg.setSourceJobID(getClient().getNextJobID());
-		msg.getBody().serializedMethod = MessageNano.toByteArray(proto);
-		msg.getBody().methodName = methodName;
-		msg.getBody().isNotification = notification;
-		getClient().send(msg);
-	}
+    /**
+     * Sends a unified message
+     */
+    public void sendUnifiedMessage(String methodName, MessageNano proto, boolean notification) {
+        final ClientMsgProtobuf<CMsgClientServiceMethod> msg = new ClientMsgProtobuf<>(CMsgClientServiceMethod.class, EMsg.ClientServiceMethod);
+        msg.setSourceJobID(getClient().getNextJobID());
+        msg.getBody().serializedMethod = MessageNano.toByteArray(proto);
+        msg.getBody().methodName = methodName;
+        msg.getBody().isNotification = notification;
+        getClient().send(msg);
+    }
 
-	/**
-	 * Handles a client message. This should not be called directly.
-	 */
-	@Override
-	public void handleMsg(IPacketMsg packetMsg) {
-		switch (packetMsg.getMsgType()) {
-			case ClientServiceMethodResponse:
-				handleClientServiceMethodResponse(packetMsg);
-			break;
-		}
-	}
+    /**
+     * Handles a client message. This should not be called directly.
+     */
+    @Override
+    public void handleMsg(IPacketMsg packetMsg) {
+        switch (packetMsg.getMsgType()) {
+            case ClientServiceMethodResponse:
+                handleClientServiceMethodResponse(packetMsg);
+            break;
+        }
+    }
 
-	public void handleClientServiceMethodResponse(IPacketMsg packetMsg) {
-		final ClientMsgProtobuf<CMsgClientServiceMethodResponse> response = new ClientMsgProtobuf<>(CMsgClientServiceMethodResponse.class, packetMsg);
+    public void handleClientServiceMethodResponse(IPacketMsg packetMsg) {
+        final ClientMsgProtobuf<CMsgClientServiceMethodResponse> response = new ClientMsgProtobuf<>(CMsgClientServiceMethodResponse.class, packetMsg);
 
 
-		final UnifiedMessageResponseCallback callback = new UnifiedMessageResponseCallback(response.getBody());
-		getClient().postCallback(callback);
-	}
+        final UnifiedMessageResponseCallback callback = new UnifiedMessageResponseCallback(response.getBody());
+        getClient().postCallback(callback);
+    }
 
-	public interface UnifiedMessageCallback<T extends MessageNano> {
-		void receive(T response);
-		Class<T> getResponseClass();
-	}
+    public interface UnifiedMessageCallback<T extends MessageNano> {
+        void receive(T response);
+        Class<T> getResponseClass();
+    }
 }

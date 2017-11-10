@@ -11,51 +11,51 @@ import uk.co.thomasc.steamkit.util.stream.BinaryWriter;
 
 public class MsgClientChatMsg implements ISteamSerializableMessage {
 
-	@Override
-	public EMsg getEMsg() {
-		return EMsg.ClientChatMsg;
-	}
+    @Override
+    public EMsg getEMsg() {
+        return EMsg.ClientChatMsg;
+    }
 
-	// Static size: 8
-	private long steamIdChatter = 0;
+    // Static size: 8
+    private long steamIdChatter = 0;
 
-	public SteamID getSteamIdChatter() {
-		return new SteamID(steamIdChatter);
-	}
+    public SteamID getSteamIdChatter() {
+        return new SteamID(steamIdChatter);
+    }
 
-	public void setSteamIdChatter(SteamID steamId) {
-		steamIdChatter = steamId.convertToLong();
-	}
+    public void setSteamIdChatter(SteamID steamId) {
+        steamIdChatter = steamId.convertToLong();
+    }
 
-	// Static size: 8
-	private long steamIdChatRoom = 0;
+    // Static size: 8
+    private long steamIdChatRoom = 0;
 
-	public SteamID getSteamIdChatRoom() {
-		return new SteamID(steamIdChatRoom);
-	}
+    public SteamID getSteamIdChatRoom() {
+        return new SteamID(steamIdChatRoom);
+    }
 
-	public void setSteamIdChatRoom(SteamID steamId) {
-		steamIdChatRoom = steamId.convertToLong();
-	}
+    public void setSteamIdChatRoom(SteamID steamId) {
+        steamIdChatRoom = steamId.convertToLong();
+    }
 
-	// Static size: 4
-	public EChatEntryType chatMsgType = null;
+    // Static size: 4
+    public EChatEntryType chatMsgType = null;
 
-	public MsgClientChatMsg() {
+    public MsgClientChatMsg() {
 
-	}
+    }
 
-	@Override
-	public void serialize(BinaryWriter stream) throws IOException {
-		stream.write(steamIdChatter);
-		stream.write(steamIdChatRoom);
-		stream.write(chatMsgType.v());
-	}
+    @Override
+    public void serialize(BinaryWriter stream) throws IOException {
+        stream.write(steamIdChatter);
+        stream.write(steamIdChatRoom);
+        stream.write(chatMsgType.v());
+    }
 
-	@Override
-	public void deSerialize(BinaryReader stream) throws IOException {
-		steamIdChatter = stream.readLong();
-		steamIdChatRoom = stream.readLong();
-		chatMsgType = EChatEntryType.f(stream.readInt());
-	}
+    @Override
+    public void deSerialize(BinaryReader stream) throws IOException {
+        steamIdChatter = stream.readLong();
+        steamIdChatRoom = stream.readLong();
+        chatMsgType = EChatEntryType.f(stream.readInt());
+    }
 }

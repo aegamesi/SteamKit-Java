@@ -14,44 +14,44 @@ import uk.co.thomasc.steamkit.types.gameid.GameID;
  * This handler handles Steam user statistic related actions.
  */
 public final class SteamUserStats extends ClientMsgHandler {
-	/**
-	 * Retrieves the number of current players or a given {@link GameID}.
-	 * Results are returned in a {@link NumberOfPlayersCallback} from a
-	 * {@link JobCallback}.
-	 * 
-	 * @param gameId
-	 *            The GameID to request the number of players for.
-	 * @return The Job ID of the request. This can be used to find the
-	 *         appropriate {@link JobCallback}.
-	 */
-	public JobID getNumberOfCurrentPlayers(GameID gameId) {
-		final ClientMsg<MsgClientGetNumberOfCurrentPlayers> msg = new ClientMsg<MsgClientGetNumberOfCurrentPlayers>(MsgClientGetNumberOfCurrentPlayers.class);
-		msg.setSourceJobID(getClient().getNextJobID());
+    /**
+     * Retrieves the number of current players or a given {@link GameID}.
+     * Results are returned in a {@link NumberOfPlayersCallback} from a
+     * {@link JobCallback}.
+     *
+     * @param gameId
+     *            The GameID to request the number of players for.
+     * @return The Job ID of the request. This can be used to find the
+     *         appropriate {@link JobCallback}.
+     */
+    public JobID getNumberOfCurrentPlayers(GameID gameId) {
+        final ClientMsg<MsgClientGetNumberOfCurrentPlayers> msg = new ClientMsg<MsgClientGetNumberOfCurrentPlayers>(MsgClientGetNumberOfCurrentPlayers.class);
+        msg.setSourceJobID(getClient().getNextJobID());
 
-		msg.getBody().setGameId(gameId);
+        msg.getBody().setGameId(gameId);
 
-		getClient().send(msg);
+        getClient().send(msg);
 
-		return msg.getSourceJobID();
-	}
+        return msg.getSourceJobID();
+    }
 
-	/**
-	 * Handles a client message. This should not be called directly.
-	 */
-	@Override
-	public void handleMsg(IPacketMsg packetMsg) {
-		switch (packetMsg.getMsgType()) {
-		case ClientGetNumberOfCurrentPlayersResponse:
-			handleNumberOfPlayersResponse(packetMsg);
-			break;
-		}
-	}
+    /**
+     * Handles a client message. This should not be called directly.
+     */
+    @Override
+    public void handleMsg(IPacketMsg packetMsg) {
+        switch (packetMsg.getMsgType()) {
+        case ClientGetNumberOfCurrentPlayersResponse:
+            handleNumberOfPlayersResponse(packetMsg);
+            break;
+        }
+    }
 
-	void handleNumberOfPlayersResponse(IPacketMsg packetMsg) {
-		final ClientMsg<MsgClientGetNumberOfCurrentPlayersResponse> msg = new ClientMsg<MsgClientGetNumberOfCurrentPlayersResponse>(packetMsg, MsgClientGetNumberOfCurrentPlayersResponse.class);
+    void handleNumberOfPlayersResponse(IPacketMsg packetMsg) {
+        final ClientMsg<MsgClientGetNumberOfCurrentPlayersResponse> msg = new ClientMsg<MsgClientGetNumberOfCurrentPlayersResponse>(packetMsg, MsgClientGetNumberOfCurrentPlayersResponse.class);
 
-		final NumberOfPlayersCallback innerCallback = new NumberOfPlayersCallback(msg.getBody());
-		final JobCallback<?> callback = new JobCallback<NumberOfPlayersCallback>(new JobID(msg.getHeader().targetJobID), innerCallback);
-		getClient().postCallback(callback);
-	}
+        final NumberOfPlayersCallback innerCallback = new NumberOfPlayersCallback(msg.getBody());
+        final JobCallback<?> callback = new JobCallback<NumberOfPlayersCallback>(new JobID(msg.getHeader().targetJobID), innerCallback);
+        getClient().postCallback(callback);
+    }
 }

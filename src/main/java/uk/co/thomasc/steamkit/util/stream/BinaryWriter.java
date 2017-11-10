@@ -9,79 +9,79 @@ import java.nio.ByteBuffer;
 
 public class BinaryWriter {
 
-	CodedOutputStream writer;
-	OutputStream os;
-	ByteArrayOutputStream stream = null;
+    CodedOutputStream writer;
+    OutputStream os;
+    ByteArrayOutputStream stream = null;
 
-	public BinaryWriter(ByteArrayOutputStream stream) {
-		this((OutputStream) stream);
-		this.stream = stream;
-	}
+    public BinaryWriter(ByteArrayOutputStream stream) {
+        this((OutputStream) stream);
+        this.stream = stream;
+    }
 
-	public BinaryWriter(int size) {
-		this(new ByteArrayOutputStream(size));
-	}
+    public BinaryWriter(int size) {
+        this(new ByteArrayOutputStream(size));
+    }
 
-	public BinaryWriter() {
-		this(32);
-	}
+    public BinaryWriter() {
+        this(32);
+    }
 
-	public BinaryWriter(OutputStream outputStream) {
-		os = outputStream;
-		writer = CodedOutputStream.newInstance(outputStream);
-	}
+    public BinaryWriter(OutputStream outputStream) {
+        os = outputStream;
+        writer = CodedOutputStream.newInstance(outputStream);
+    }
 
-	public void write(short data) throws IOException {
-		final ByteBuffer buffer = ByteBuffer.allocate(2);
-		buffer.putShort(data);
-		writeR(buffer);
-	}
+    public void write(short data) throws IOException {
+        final ByteBuffer buffer = ByteBuffer.allocate(2);
+        buffer.putShort(data);
+        writeR(buffer);
+    }
 
-	public void write(int data) throws IOException {
-		final ByteBuffer buffer = ByteBuffer.allocate(4);
-		buffer.putInt(data);
-		writeR(buffer);
-	}
+    public void write(int data) throws IOException {
+        final ByteBuffer buffer = ByteBuffer.allocate(4);
+        buffer.putInt(data);
+        writeR(buffer);
+    }
 
-	public void write(long data) throws IOException {
-		final ByteBuffer buffer = ByteBuffer.allocate(8);
-		buffer.putLong(data);
-		writeR(buffer);
-	}
+    public void write(long data) throws IOException {
+        final ByteBuffer buffer = ByteBuffer.allocate(8);
+        buffer.putLong(data);
+        writeR(buffer);
+    }
 
-	public byte[] toByteArray() {
-		if (stream != null) {
-			return stream.toByteArray();
-		}
-		return null;
-	}
+    public byte[] toByteArray() {
+        if (stream != null) {
+            return stream.toByteArray();
+        }
+        return null;
+    }
 
-	public void writeR(ByteBuffer buffer) throws IOException {
-		for (int i = buffer.capacity() - 1; i >= 0; --i) {
-			write(buffer.get(i));
-		}
-	}
+    public void writeR(ByteBuffer buffer) throws IOException {
+        for (int i = buffer.capacity() - 1; i >= 0; --i) {
+            write(buffer.get(i));
+        }
+    }
 
-	public void write(byte[] data) throws IOException {
-		writer.writeRawBytes(data);
-		writer.flush();
-	}
+    public void write(byte[] data) throws IOException {
+        writer.writeRawBytes(data);
+        writer.flush();
+    }
 
-	public void write(byte data) throws IOException {
-		writer.writeRawByte(data);
-		writer.flush();
-	}
+    public void write(byte data) throws IOException {
+        writer.writeRawByte(data);
+        writer.flush();
+    }
 
-	public CodedOutputStream getStream() {
-		return writer;
-	}
+    public CodedOutputStream getStream() {
+        return writer;
+    }
 
-	public void flush() {
-		try {
-			os.flush();
-		} catch (final IOException e) {
-			uk.co.thomasc.steamkit.util.logging.DebugLog.writeLine("NEW_EX", "Exception: %s", e);
-		}
-	}
+    public void flush() {
+        try {
+            os.flush();
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

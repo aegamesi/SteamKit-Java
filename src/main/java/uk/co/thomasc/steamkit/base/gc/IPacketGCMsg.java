@@ -10,34 +10,34 @@ import uk.co.thomasc.steamkit.types.JobID;
  * modified.
  */
 public interface IPacketGCMsg {
-	/**
-	 * true if this instance is protobuf backed; otherwise, false.
-	 */
-	boolean isProto();
+    /**
+     * true if this instance is protobuf backed; otherwise, false.
+     */
+    boolean isProto();
 
-	/**
-	 * The message type.
-	 */
-	int getMsgType();
+    /**
+     * The message type.
+     */
+    int getMsgType();
 
-	/**
-	 * The target job id.
-	 */
-	JobID getTargetJobID();
+    /**
+     * The target job id.
+     */
+    JobID getTargetJobID();
 
-	void setTargetJobID(JobID JobID);
+    void setTargetJobID(JobID JobID);
 
-	/**
-	 * The source job id.
-	 */
-	JobID getSourceJobID();
+    /**
+     * The source job id.
+     */
+    JobID getSourceJobID();
 
-	void setSourceJobID(JobID JobID);
+    void setSourceJobID(JobID JobID);
 
-	/**
-	 * Gets the underlying data that represents this client message.
-	 * 
-	 * @return The data.
-	 */
-	byte[] getData();
+    /**
+     * Gets the underlying data that represents this client message.
+     *
+     * @return The data.
+     */
+    byte[] getData();
 }

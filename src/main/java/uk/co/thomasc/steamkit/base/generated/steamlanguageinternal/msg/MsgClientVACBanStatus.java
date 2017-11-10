@@ -9,25 +9,25 @@ import uk.co.thomasc.steamkit.util.stream.BinaryWriter;
 
 public class MsgClientVACBanStatus implements ISteamSerializableMessage {
 
-	@Override
-	public EMsg getEMsg() {
-		return EMsg.ClientVACBanStatus;
-	}
+    @Override
+    public EMsg getEMsg() {
+        return EMsg.ClientVACBanStatus;
+    }
 
-	// Static size: 4
-	public int numBans = 0;
+    // Static size: 4
+    public int numBans = 0;
 
-	public MsgClientVACBanStatus() {
+    public MsgClientVACBanStatus() {
 
-	}
+    }
 
-	@Override
-	public void serialize(BinaryWriter stream) throws IOException {
-		stream.write(numBans);
-	}
+    @Override
+    public void serialize(BinaryWriter stream) throws IOException {
+        stream.write(numBans);
+    }
 
-	@Override
-	public void deSerialize(BinaryReader stream) throws IOException {
-		numBans = stream.readInt();
-	}
+    @Override
+    public void deSerialize(BinaryReader stream) throws IOException {
+        numBans = stream.readInt();
+    }
 }
